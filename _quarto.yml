@@ -1,0 +1,45 @@
+project:
+  type: website
+  output-dir: docs # Expected by GitHub Pages to render site
+  execute-dir: project # Sets all calculations relative to root to avoid using here::here()
+  render:
+    - "**/*.qmd"
+    - "**/*.md"
+    - "!refs/"
+    - "!research/"
+    - "!structure.md"
+    - "!AGENTS.md"
+  resources:
+    - data/outputs/results/*.xlsx # Published as is, so the Downloads page can link to the tables
+
+website:
+  title: "Crop Pollination"
+  site-url: https://renatovargas.github.io/jrc-pollination/
+  repo-url: https://github.com/renatovargas/jrc-pollination
+  repo-branch: main
+  repo-actions: [source]
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: documentation/index.qmd
+        text: Documents
+      - href: downloads/index.qmd
+        text: Downloads
+  sidebar:
+    - id: methods
+      title: "Documents"
+      style: docked
+      contents:
+        - documentation/index.qmd
+        - section: "Methods"
+          contents:
+            - documentation/methods/crop-pollination/index.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true

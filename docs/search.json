@@ -1,0 +1,264 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Crop Pollination",
+    "section": "",
+    "text": "This site presents the crop pollination ecosystem service accounts of the European Union for 2000, 2006, 2012, 2018 and 2024. Crop pollination is the fertilisation of crops by wild insects, which maintains or increases crop production. The accounts map where the environment can support wild pollinators, where crops depend on them, how much production can be attributed to the service and how much demand remains unmet, in physical and monetary terms.\nThe report describes the methods, the decisions taken along the way and the results. The Downloads page holds the tables by NUTS region and the 100 m maps. The numbered scripts in the scripts/ folder of the repository reproduce the work."
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html",
+    "href": "documentation/methods/crop-pollination/index.html",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "",
+    "text": "We provide estimates of the crop pollination ecosystem service for the 27 Member States of the European Union in 2000, 2006, 2012, 2018 and 2024, following the accounting method of Vallecillo et al. (2018). In 2024, crops that depend on insect pollination cover 17.6 million hectares, and 53 percent of that area lies where the environment can support wild pollinators. The production attributable to the service is 14.4 million tonnes, against 12.1 million tonnes in 2000, and another 9.9 million tonnes depend on pollination but grow outside that area. At constant 2010 prices, the actual flow is worth 6.7 billion euro and the unmet demand 4.8 billion euro. Spatial crop data end in 2018, so the crop pattern of 2018 stands in for 2024.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#overview",
+    "href": "documentation/methods/crop-pollination/index.html#overview",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.1 Overview",
+    "text": "2.1 Overview\nThe idea behind the accounts is that wild pollinators forage within a limited distance of the habitat that feeds and shelters them, so a crop benefits from the service only where the surrounding environment can sustain them. The method expresses this in four components (Vallecillo et al., 2018). Pollination potential is a dimensionless indicator of how suitable a place is for wild pollinators. It is the mean of an expert-based model of solitary bees and a species distribution model of bumblebees, and cells with a potential of at least 0.2 form the service providing area. Demand is the area of crops that benefit from insect pollination. Actual flow is the production attributable to pollination where demand and the service providing area overlap, and unmet demand is the same quantity where they do not. Valuation then separates the share of the value of crop production that is due to the service.\nThe analysis covers the European territory of the EU27, on the grid of the Corine Land Cover maps in the projection EPSG:3035. Potential is modelled at 100 m and combined at 1 km, the resolution of the crop data, and the results are reported by region and mapped at both resolutions.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#territory-and-reporting-regions",
+    "href": "documentation/methods/crop-pollination/index.html#territory-and-reporting-regions",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.2 Territory and reporting regions",
+    "text": "2.2 Territory and reporting regions\nWe used the NUTS 2024 boundaries (Eurostat, 2024), the European classification of territorial units, to report on 27 countries (NUTS0), 239 NUTS2 regions and 1160 NUTS3 regions. Each 1 km cell was assigned to the NUTS3 region at its centre, and coastal and border cells whose centre falls outside every region took the nearest region within 2 km, so that crop area on the coast is not lost.1 All tables are built by adding up the NUTS3 regions, so the three levels match exactly. The Canary Islands, the Azores, Madeira and the overseas regions fall outside the climate data and are left out. The resulting grid holds 412.4 million hectares of land, of which 152.1 million are agricultural in the land cover of 2018.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#the-expert-based-model",
+    "href": "documentation/methods/crop-pollination/index.html#the-expert-based-model",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.3 The expert-based model",
+    "text": "2.3 The expert-based model\nThe expert-based model scores each 100 m cell from 0 to 1 for its capacity to support wild solitary bees, in the five steps below.2\n\n2.3.1 Land cover\nThe Corine accounting layers are the versions of the Corine Land Cover maps that the European Environment Agency prepares for comparison over time, and they are the land cover data that the method prescribes. The public catalogue that accompanies the k.LAB project (Integrated Modelling Partnership, 2026) holds version 20 for the years up to 2018, whereas the Agency published version 21 for all five years in September 2026 and marked version 20 as superseded (European Environment Agency, 2026). We therefore considered two routes.3\nUsing the harmonised catalogue layer is the shorter route, and it offers a ready-made distance map. Rebuilding from primary sources means downloading version 21 and recomputing the distance maps, and it gives one consistent product across the series, including 2024. We ran the model on both routes for 2000 and 2018 and compared them at 1 km with the same climate, road and bumblebee layers (Table 2). The two agree closely on the mean and on the area served, although a few cells change substantially. Since only the rebuilt route reaches 2024, a decision was made to use it as the baseline for all years. The comparison was run once, so the pipeline does not repeat it, and -routes keeps its result.4\n\n\n\n\nTable 2: Pollination potential at 1 km from the rebuilt and the catalogue routes.\n\n\n\nYearCorrelationMean, rebuiltMean, catalogueLargest gapService area, rebuilt (Mha)Service area, catalogue (Mha)Class differs (%)20000.9850.2090.2090.298228.994229.0432.23520180.9780.2130.2140.310237.565240.4793.619\n\n\n\n\n\nEach Corine class carries a score for floral availability \\(F\\) and for nesting suitability \\(N\\), on a scale from 0 to 1, which Zulian, Maes, & Paracchini (2013) derived from the literature and an expert workshop. A cell takes the mean of the two, as Vallecillo et al. (2018) prescribe in place of the product that Zulian et al. (2013) used.\n\\[\nS = \\frac{F + N}{2}\n\\tag{1}\\]\nThe scores are those of Table S1 in the supplement to Zulian et al. (2013), shown in Table 16 in the appendix. That article refines them with crop maps, a high resolution forest map, high nature value farmland, riparian areas and road sides, whereas the method of Vallecillo et al. (2018) works from Corine alone, so a decision was made to use the values that the supplement offers for readers who rely on Corine data only. These include an average for olive groves, which the supplement scores as 0.2 and 0.4 when intensive and 0.6 and 0.6 when extensive. We took the table from the k.LAB project (Integrated Modelling Partnership, 2026) and compared it with the supplement, and all 43 classes agree.\n\n\n2.3.2 Major roads\nMajor roads cannot provide food or nesting sites, so cells on a major road score zero. The method names a commercial road network, TeleAtlas, which is proprietary. A decision was made to use OpenStreetMap (OpenStreetMap contributors, 2026) instead, taking motorways, trunk roads and primary roads with their links, which correspond to the same categories, and rasterising them on the 100 m grid.5 As in the method, the road map is a single snapshot that applies to all years.\n\n\n2.3.3 Forest edges\nWild bees use forest margins more than forest interiors. Following Vallecillo et al. (2018), the outer ring of 100 m of each forest patch keeps its score and the interior scores zero. Forest means the broad-leaved, coniferous and mixed forest classes 311, 312 and 313, and a forest cell belongs to the interior when all eight of its neighbours are also forest. The edge keeps the Corine score of its class from Table S1. The supplement to Zulian et al. (2013) also holds separate scores for forest edges in its Table S3, which are 0.1 higher for both floral availability and nesting suitability, and which it applies to an edge of 50 m.\n\n\n2.3.4 Distance to semi-natural areas\nPollinator richness and visits decline exponentially with isolation from natural habitat, at a mean rate of 0.00046 per metre across 23 studies (Garibaldi et al., 2011; Ricketts et al., 2008). The method applies this decay to the score, using the distance \\(d\\) in metres from each cell to the nearest semi-natural area.\n\\[\nS_d = \\exp\\left(\\ln(S) - 0.00046\\, d\\right) = S\\, e^{-0.00046\\, d}\n\\tag{2}\\]\nThe score is zero beyond 20 km. Semi-natural areas are the classes 311, 312, 313, 321, 322, 323, 324, 331 and 333. We computed the Euclidean distance between cell centres for each of the five land cover maps.6\n\n\n2.3.5 Activity of insects\nHabitat is of no use if it is too cold for insects to leave the nest. The activity index \\(A\\) of Corbet et al. (1993), as adapted by Zulian et al. (2013), expresses in percent how active insects are as a function of air temperature \\(T\\) in degrees Celsius and solar irradiance \\(R\\) in watts per square metre, through the temperature of a black globe that simulates the body of an insect.\n\\[\nA = -39.3 + 4.01\\, T_b, \\qquad T_b = -0.62 + 1.027\\, T + 0.006\\, R\n\\tag{3}\\]\nThe method names the Agri4Cast climate grid, whose access requires a sign-in that was not available. A decision was made to use instead the ERA5 temperature (Hersbach et al., 2023) and the Copernicus radiation (Copernicus Climate Change Service, 2020) of the public catalogue, which reach 2025 and whose radiation is already expressed over day length. The method text refers to minimum temperature and its table of inputs to mean temperature, and a decision was made to use mean temperature, which is the variable in Zulian et al. (2013). For each reporting year we took the three years centred on it, with 2023 to 2025 for 2024, and computed the index for each month from April to September. Each month was limited to the range from 0 to 100, as Zulian et al. (2013) do, before averaging the six months and interpolating the result bilinearly to 1 km and then to 100 m.7\nThe expert-based model \\(E\\) is the product of the decayed score and the index.\n\\[\nE = S_d \\, \\frac{A}{100}\n\\tag{4}\\]\nWe ran the five steps over the whole grid in tiles, for each year, and reduced the result to 1 km with the mean of the land cells of each kilometre. The reduction is what the following steps read, and the 100 m tiles remain outside the repository, listed with their source, size and checksum in a manifest.8 To let a reader inspect the 100 m chain with no download, the repository also holds the 100 m inputs of Luxembourg in 2018. Running the model on them reproduces the full run with a largest difference of 5e-05 in any kilometre inside the country.9",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#the-bumblebee-model",
+    "href": "documentation/methods/crop-pollination/index.html#the-bumblebee-model",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.4 The bumblebee model",
+    "text": "2.4 The bumblebee model\nThe second model estimates where bumblebees occur. The method fits a species distribution model to records of 47 species and projects it to each period, which requires the fitted models. These are unavailable, so a decision was made to use the published aggregated layer of Polce et al. (2018), which gives the mean probability of occurrence of the 47 species at 10 km. We interpolated it bilinearly to 1 km, and land cells left without a value along the coast took the mean of their neighbours within 10 km.10 Its values run from 0.04 to 0.73 on land. The layer does not change over time, so all change in potential over the series comes from land cover and climate.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#pollination-potential-and-the-service-providing-area",
+    "href": "documentation/methods/crop-pollination/index.html#pollination-potential-and-the-service-providing-area",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.5 Pollination potential and the service providing area",
+    "text": "2.5 Pollination potential and the service providing area\nThe potential \\(P\\) of a 1 km cell is the mean of the expert-based model and the bumblebee model.\n\\[\nP = \\frac{E + B}{2}\n\\tag{5}\\]\nThe classes follow Vallecillo et al. (2018), namely high above 0.3, medium from 0.2 to 0.3, low from 0.1 to 0.2 and none below 0.1. Cells of medium and high potential form the service providing area, where pollinators are assumed to be present. We added up land and agricultural land in each class by NUTS3 region.11",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#demand",
+    "href": "documentation/methods/crop-pollination/index.html#demand",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.6 Demand",
+    "text": "2.6 Demand\nDemand is the area of the ten crop groups in Table 3, which the method takes from the CAPRI agricultural model disaggregated to 1 km. The method had two years of these data. We used the later series of Koeble et al. (2024), which covers 2000 to 2018 and offers the exact reporting years. The layers were read from the public catalogue, which holds the same variables for those years, and reduced to one compact stack of area and one of yield per year.12\n\n\n\n\nTable 3: Crop groups, dependency on insect pollination (Klein et al., 2007) and items of the economic accounts for agriculture (Vallecillo et al., 2018).\n\n\n\nCodeCropDependency ratioClassEurostat itemsAPPLApples, pears and peaches0.650HighAM061100, AM061200, AM061300OFRUOther fruits0.400ModerateAM061900RAPERapeseed0.250ModerateAM021100SUNFSunflower0.250ModerateAM021200SOYASoya0.250ModerateAM021300OOILOther oilseeds0.175ModerateAM021900PULSPulses0.050LowAM022000TEXTFlax and hemp0.050LowAM029100TOMATomatoes0.050LowAM041200CITRCitrus fruits0.050LowAM062000\n\n\n\n\n\nAdding up the layers showed that some kilometres hold more than the 100 hectares a square kilometre can contain, with 2,395 such cells in 2018 and a largest value of 1,023 hectares. These values reflect multiple cropping and the way the source allocates reported land. They hold 1.8 percent of demand in that year, and truncating them would understate the area, so a decision was made to keep them.\n\n2.6.1 Countries outside the crop data\nThe method notes that CAPRI does not cover Croatia, Malta and Cyprus. Reading the later series gives a more nuanced picture (Table 4). Croatia is absent, with a few hectares that come from cells along its border. Cyprus and Malta, by contrast, do hold crop area, and in Cyprus it is close to the national statistics. A decision was made to treat the three countries in the same way, in line with the method, so they stay out of the crop maps and take the estimate described in Section 2.7.3. Cyprus and Malta together hold 0.05 percent of the actual flow in 2024, so the choice has little effect on the totals.\n\n\n\n\nTable 4: Crop area in the three countries in 2018, in hectares, and the actual flow estimated for them.\n\n\n\nCountryCAPRI series (ha)Eurostat (ha)Estimated flow (t)Croatia30202,780113,389Cyprus8,1728,7706,438Malta46601,546",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#actual-flow-and-unmet-demand",
+    "href": "documentation/methods/crop-pollination/index.html#actual-flow-and-unmet-demand",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.7 Actual flow and unmet demand",
+    "text": "2.7 Actual flow and unmet demand\nThe actual flow of crop \\(c\\) in cell \\(i\\) is its production times its dependency ratio \\(\\delta_c\\) (Klein et al., 2007) when the cell belongs to the service providing area \\(\\Omega\\). Unmet demand applies the same product to the cells outside it, so flow and unmet demand add up to all production that depends on pollination.\n\\[\nF_{c,i} = a_{c,i}\\, y_{c,i}\\, k_{c}\\, \\delta_c \\quad \\text{if } i \\in \\Omega, \\qquad\nU_{c,i} = a_{c,i}\\, y_{c,i}\\, k_{c}\\, \\delta_c \\quad \\text{if } i \\notin \\Omega\n\\tag{6}\\]\nHere \\(a\\) is the crop area, \\(y\\) the yield and \\(k\\) a scaling factor for the crop and country, explained below. A decision was made to measure unmet demand in tonnes by analogy with the flow, because the method defines it by area only and the monetary accounts need a physical quantity. We report the area of met and unmet demand as well.\n\n2.7.1 Scaling to national statistics\nThe method anchors the accounts in official statistics, so we compared the CAPRI production of each crop and country with the national production of Eurostat, in the three-year mean around each reporting year (Eurostat, 2026a).13 Table 5 shows that the two sources agree well for most crops, with two exceptions that matter. CAPRI places about twice the Eurostat production of other fruits, and about 3 times the Eurostat area of flax and hemp.\n\n\n\n\nTable 5: Crop area and production in CAPRI and Eurostat in 2018, before scaling, for the crops and countries that both report.\n\n\n\nCropCAPRI (kha)Eurostat (kha)Area ratioCAPRI (kt)Eurostat (kt)Production ratioApples, pears and peaches522.2823.40.6313,260.618,038.00.74Citrus fruits494.9494.91.0010,762.410,719.11.00Other fruits2,183.81,951.81.1215,076.58,601.61.75Other oilseeds470.6249.71.88796.41,240.10.64Pulses2,113.52,181.70.973,703.74,449.90.83Rapeseed6,282.55,824.01.0818,033.717,498.51.03Soya872.1861.71.012,486.52,590.70.96Sunflower3,961.44,186.70.959,990.010,126.10.99Flax and hemp495.1157.73.141,197.8958.51.25Tomatoes237.9242.90.9816,958.817,139.80.99\n\n\n\n\n\nA decision was therefore made to keep the CAPRI pattern of each crop within a country and scale its production to the Eurostat total, with the factor \\(k_c = \\text{Eurostat production} / \\text{CAPRI production}\\). Maps and tables then agree with official totals. The national pollination contribution, which is the actual flow divided by total production, is unaffected by this factor, so it remains the production-weighted share that Vallecillo et al. (2018) define. Demand stays in the hectares of CAPRI, since the crop pattern on the map comes from that source. Where Eurostat has no figure for a crop and country, the CAPRI production is kept and flagged. There are 10 such cases, the largest being tomatoes in Portugal in 2000 and 2006, with about 1.2 million tonnes in 2006.14\n\n\n2.7.2 Cases where the sources disagree on the crop\nApplying the factors exposed a set of crops and countries for which the two sources disagree on whether the crop is present at all. CAPRI places 233,507 tonnes of other fruits in Luxembourg in 2000, against 1,000 tonnes in Eurostat, and about 261 thousand tonnes of flax and hemp in Greece in 2006, where Eurostat reports none. Conversely, Eurostat reports 5,045 tonnes of rapeseed in Greece in 2000, where CAPRI has almost nothing. Scaling such cases would place unrealistic amounts in a few cells, so a decision was made to set them aside when the factor is above 10 or below 0.1. Table 6 shows that they are numerous but small, at under one percent of production in every year. Production that Eurostat reports for these cases moves to the estimate below, and CAPRI production that Eurostat does not report is dropped.\n\n\n\n\nTable 6: Crops and countries set aside because CAPRI and Eurostat differ by more than a factor of ten.\n\n\n\nYearCasesCAPRI production set aside (kt)Eurostat production re-estimated (kt)Share of all production (%)200030826.7280.10.4200625524.55.40.0201227555.47.80.0201827338.663.70.1202430342.4299.80.3\n\n\n\n\n\n\n\n2.7.3 Production without a place on the map\nSome national production has no place on the map, either because of the countries discussed above or because of the cases just set aside. For these, the share of the agricultural land of each region inside the service providing area stands in for the share of the crop inside it, and the agricultural land of each region shares out the national figure. Area follows the same shares, from the national area in Eurostat. Malta reports production but no area until 2024, so it shows flow with no hectares of demand in earlier years. These values are flagged as estimates in the tables and do not enter the crop maps. They hold 0.7 to 1.3 percent of the flow, depending on the year.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#monetary-valuation",
+    "href": "documentation/methods/crop-pollination/index.html#monetary-valuation",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.8 Monetary valuation",
+    "text": "2.8 Monetary valuation\nPollination contributes to a product that the national accounts already record, namely crops. The method therefore does not price the service separately. It takes the value of production in the economic accounts for agriculture and separates the part due to pollination, so no value is counted twice (Vallecillo et al., 2018). We retrieved the production value at basic price in the prices of the previous year from Eurostat dataset aact_eaa02 (Eurostat, 2026b), as the mean of the three years around each reporting year, and we linked it to the crop groups through the correspondence in Table 3.15\nThe pollination contribution \\(C\\) of a crop in a country is its actual flow over its total production \\(T\\), and the value of the flow is the production value \\(V\\) times that contribution. The value of unmet demand follows in the same way.\n\\[\nC = \\frac{F}{T}, \\qquad V_F = V\\, C, \\qquad V_U = V\\, \\frac{U}{T}\n\\tag{7}\\]\nValues in the prices of the previous year still drift with inflation across a series of 24 years, so a decision was made to express them in constant prices of 2010, as the method does not prescribe a base for a longer series. We multiplied them by the deflator \\(H_{2010} / \\bar{H}_{y}\\), where \\(H\\) is the harmonised index of consumer prices of the European Union (Eurostat, 2026c) and \\(\\bar{H}_{y}\\) is its mean over the three years that the prices of each reporting year refer to. The deflator runs from 1.27 for 2000 to 0.74 for 2024.16\nThe two sources do not match perfectly. A production value in a country with no physical production has no contribution and receives no value, which leaves out 2,555 million euro across all years and countries. A country that reports production of a crop but no value for it has flow with no monetary counterpart, which concerns 0.2 percent of the physical flow. Regions receive the national value of each crop in proportion to their physical flow and unmet demand, through a value per tonne that is uniform within a crop and country.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#maps",
+    "href": "documentation/methods/crop-pollination/index.html#maps",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.9 Maps",
+    "text": "2.9 Maps\nWe wrote the maps of potential, demand, actual flow, unmet demand and value at 1 km from the rasters and the factors and prices of the tables, and then read their totals back from disk to compare them with the tables.17 The 1 km maps are a working product, kept outside the repository, from which the published 100 m maps are built.\nThe 100 m maps add spatial detail in two ways.18 Potential is computed directly as the mean of the 100 m expert-based model and the bumblebee model interpolated to 100 m. The other quantities exist only at 1 km, so they are allocated within each kilometre, and each kilometre keeps its total. Demand, unmet demand and the flow and value on agroecosystems go to agricultural cells, and the flow for all ecosystem types goes to all land cells in proportion to their expert-based suitability. A kilometre with no positive weight spreads its value evenly over its land cells. The detail within each kilometre therefore comes from land cover, and crops are not observed at that scale. To make the files several times smaller, values are stored as whole numbers in small units, namely potential multiplied by 10 000, demand in square metres, flow and unmet demand in kilograms, and value in euro.\nTo describe which ecosystems support the flow, we shared the flow of each kilometre among ecosystem types in proportion to their share of its expert-based suitability, and we attributed to cropland the small amount of flow in cells with no support.19",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#checks",
+    "href": "documentation/methods/crop-pollination/index.html#checks",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "2.10 Checks",
+    "text": "2.10 Checks\nThe scripts stop if any check on the tables or on the 1 km maps fails. Table 7 records the largest relative gap of each check on the tables. The value of the flow in any crop and country also never exceeds the production value times the dependency ratio.\n\n\n\n\nTable 7: Consistency checks of the tables, with the largest relative gap and the tolerance that would stop the scripts.\n\n\n\nCheckLargest gapToleranceFlow by NUTS3 against NUTS00.0e+001e-04Flow by NUTS2 against NUTS00.0e+001e-04Flow plus unmet demand against dependent production0.0e+001e-04National production against Eurostat2.2e-161e-03Value of flow, regions against countries0.0e+001e-04Value of unmet demand, regions against countries1.6e-161e-04Value of flow by NUTS3 against NUTS00.0e+001e-04\n\n\n\n\n\nThe maps agree with the tables once the estimates, which the maps leave out, are set aside. In 2024 the flow maps add up to 14.18 million tonnes, against 14.18 million tonnes in the tables without estimates and 14.36 million tonnes with them. We also read the 100 m maps back from disk and compared them with the 1 km maps for all five years.20 No kilometre differs by more than the 50 units that rounding allows, and the totals of demand, flow, unmet demand and value stay within 0.03 percent of the 1 km totals.\nPotential differs by at most 0.053 on the scale from 0 to 1 in any kilometre, which comes from interpolating the bumblebee model to 100 m rather than to 1 km. The mean of the map of potential on agricultural land is about 5 percent below that of its 1 km map because the two averages weigh cells differently. The 100 m mean counts each agricultural cell, and the 1 km mean counts each kilometre once however little agricultural land it holds.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#pollination-potential",
+    "href": "documentation/methods/crop-pollination/index.html#pollination-potential",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.1 Pollination potential",
+    "text": "3.1 Pollination potential\nThe environment became somewhat more suitable for wild pollinators over the series (Table 8 and Figure 1). Land of high potential grew from 24.4 to 37.2 million hectares, mostly at the expense of land of low potential, while land of medium potential stayed close to 200 million hectares. Most of the rise seems to come from climate. The activity index rose from a mean of 31.1 percent to 35.3 percent, by about the same proportion as the expert-based model, which multiplies it. This reading rests on the parallel between the two series, as we did not separate the effects of climate and land cover.\n\n\n\n\nTable 8: Land by class of potential, in million hectares, and the mean of each layer on land.\n\n\n\nMeasure20002006201220182024High potential (Mha)24.426.927.832.637.2Medium potential (Mha)201.6203.2201.7201.8202.6Low potential (Mha)173.1169.1169.7165.0160.1No potential (Mha)13.313.113.212.912.4Mean potential0.2090.2110.2110.2130.216Mean of the expert-based model0.0920.0960.0960.1010.106Mean of the bumblebee model0.3250.3250.3250.3250.325Mean activity index (%)31.132.332.434.235.3\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: Pollination potential by class, 2000 and 2024.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#demand-actual-flow-and-unmet-demand",
+    "href": "documentation/methods/crop-pollination/index.html#demand-actual-flow-and-unmet-demand",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.2 Demand, actual flow and unmet demand",
+    "text": "3.2 Demand, actual flow and unmet demand\nDemand grew from 13.8 to 17.6 million hectares, and actual flow from 12.1 to 14.4 million tonnes (Table 9). The share of demand inside the service providing area changed much less, from 48.2 to 53.0 percent. Growth in flow therefore comes mainly from more dependent crops and higher production, and only in part from better conditions for pollinators.\n\n\n\n\nTable 9: Demand, actual flow and unmet demand in the EU27. Demand and flow of 2024 use the crop area and yield of 2018.\n\n\n\nYearDemand (Mha)Met demand (%)Actual flow (Mt)Unmet demand (Mt)Share of flow estimated (%)200013.848.212.19.01.3200614.751.712.29.20.7201214.752.712.89.20.8201817.552.314.110.70.9202417.653.014.49.91.2\n\n\n\n\n\nTwo features of the series deserve attention. Between 2012 and 2018, demand rises by 2.8 million hectares, and about 47 percent of that rise comes from other fruits, which fall to 0.9 million hectares in 2012 against about 2 million in the other years. Both CAPRI and Eurostat show this dip, which is more likely to reflect gaps in the reported data than a real change. Between 2018 and 2024, with the crop pattern held fixed, unmet demand falls from 10.7 to 9.9 million tonnes. Part of this is the growth of the service providing area, and part is lower national production, notably of sunflower, whose unmet demand falls from 1.64 to 1.32 million tonnes. It should not be read as crops moving towards better habitat.\nFigure 2 shows where this happens in 2024. Demand spreads across most of the farmland of the continent. Actual flow concentrates in Poland, Germany, Hungary, the Benelux and the north of France, and unmet demand in central and southern France, Italy, Spain and Romania.\n\n\n\n\n\n\nFigure 2: Demand, actual flow and unmet demand at 1 km in 2024, which uses the crop area and yield of 2018.\n\n\n\nIn the service providing area, most demand lies at medium potential. In 2006, 6 percent of the area of CAPRI crops on the map lies at high potential and 45 percent at medium potential, which is close to the 6 and 44 percent that Vallecillo et al. (2018) report for that year, and the remaining 49 percent is close to their 50 percent of unmet demand.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#crops",
+    "href": "documentation/methods/crop-pollination/index.html#crops",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.3 Crops",
+    "text": "3.3 Crops\nFruit dominates the service (Table 10). Apples, pears, peaches and other fruits make up 69 percent of the value of the flow in 2024, and rapeseed another 18 percent. Tomatoes and citrus illustrate the role of the dependency ratio, since they hold large production and little flow because only 5 percent of their production depends on pollination. Sunflower and soya have the lowest shares of met demand among the crops of moderate dependency.\n\n\n\n\nTable 10: Accounts by crop in the EU27 in 2024, which use the crop area and yield of 2018. Value is in million euro at constant 2010 prices.\n\n\n\nCropDemand (kha)Met (%)Production (kt)Flow (kt)Unmet (kt)ContributionValue of flowValue of unmetApples, pears and peaches5287517,2147,2223,9670.422,4421,750Other fruits2,217558,8461,9621,5770.222,2181,506Rapeseed6,3006318,7483,0691,6180.161,242557Sunflower4,024368,9009011,3240.10347520Tomatoes2393616,5333354920.02187148Soya1,006422,9093134140.11117145Citrus fruits5004310,5882283010.0282106Pulses2,120555,005167830.035232Other oilseeds477691,075136520.133910Flax and hemp157581,13932250.031521",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#countries",
+    "href": "documentation/methods/crop-pollination/index.html#countries",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.4 Countries",
+    "text": "3.4 Countries\nThe share of met demand separates the continent sharply (Table 11). It is above 80 percent across most of central and northern Europe, and it is far lower in several of the countries with the largest demand, with 25 percent in Italy, 28 percent in France, 34 percent in Spain and 24 percent in Romania. As a result, Poland has the largest value of flow, at 1,020 million euro, while France has the largest value of unmet demand, at 1,180 million euro (Figure 3). In Italy, the value of unmet demand is about twice the value of the flow. The Netherlands stands out for the opposite reason, with 374 million euro from only 29 thousand hectares, which reflects a high value per hectare and a high share of met demand.\n\n\n\n\nTable 11: Accounts by country in 2024, which use the crop area and yield of 2018. Value is in million euro at constant 2010 prices. An asterisk marks countries with estimated values.\n\n\n\nCountryDemand (kha)Met (%)Flow (kt)Unmet (kt)Value of flowValue of unmetPL*1,589913,5232671,02086FR2,926281,4242,1139661,180ES*2,596341,4601,795753878DE*1,525901,65121369190IT*1,199251,3232,618473904EL*51751565731404608NL29924173737433RO2,105246001,059353465HU1,1608481913834758PT25052277277251236BE449640552343AT19210029501630CZ55694361231409LT*4459926921111DK18189189239111BG*1,1583219036977146SK31264143816033SE149981163581LV162100970400FI*84842763710HR*21564109623520SI*1492325284EE12399430170IE205319201114CY*9466734LU*4763120MT*0961010\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Value of the actual flow and of unmet demand by country, 2024, which uses the crop area and yield of 2018.",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#value-over-time",
+    "href": "documentation/methods/crop-pollination/index.html#value-over-time",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.5 Value over time",
+    "text": "3.5 Value over time\nThe value of the actual flow at constant 2010 prices rose from 5.2 to 6.7 billion euro between 2000 and 2024 (Table 12). Most of the much larger rise in the prices of the previous year, from 4.1 to 9.1 billion euro, is general inflation.\n\n\n\n\nTable 12: Value of dependent crops, of the actual flow and of unmet demand in the EU27. Values of 2024 use the crop area and yield of 2018.\n\n\n\nYearDependent crops, value (M EUR 2010)Value of flow (M EUR 2010)Value of unmet demand (M EUR 2010)Value of flow (M EUR, prices of previous year)200032,7855,2364,3244,116200631,4145,2484,1484,708201234,7235,9784,3116,146201837,4486,3234,6556,921202440,5946,7414,7949,054",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#ecosystems-that-support-the-flow",
+    "href": "documentation/methods/crop-pollination/index.html#ecosystems-that-support-the-flow",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.6 Ecosystems that support the flow",
+    "text": "3.6 Ecosystems that support the flow\nCropland itself supports 51 percent of the mapped flow in 2024, followed by woodland and forest with 27 percent (Table 13). This follows from the expert-based scores and from how much cropland surrounds the crops, and it does not observe where pollinators come from.\n\n\n\n\nTable 13: Mapped actual flow by ecosystem type, in thousand tonnes. Flow of 2024 uses the crop area and yield of 2018.\n\n\n\nEcosystem20002006201220182024Cropland5,6135,9196,4117,0677,296Woodland and forest3,1603,0853,2683,7183,771Grassland1,4281,4091,4161,5151,492Urban583625672727763Heathland and shrub979908776784721Sparsely vegetated land174105797473Wetlands5258637169Rivers and lakes00000",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#comparison-with-the-published-accounts",
+    "href": "documentation/methods/crop-pollination/index.html#comparison-with-the-published-accounts",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "3.7 Comparison with the published accounts",
+    "text": "3.7 Comparison with the published accounts\nVallecillo et al. (2018) report for 2006 an actual flow of 13 million tonnes, 15 percent of the production of dependent crops, for the EU-28. We obtain 12.2 million tonnes, or 15 percent, for the EU27, which is a close match. National contributions are close in Germany, France and Poland, as Table 14 shows for two crops, and they differ more in Italy, Spain and Romania. The comparison serves for orientation only, because the crop data, the land cover version and the climate source differ.\n\n\n\n\nTable 14: Pollination contribution in 2006 in this report and in Vallecillo et al. (2018), Table 4.5.\n\n\n\nCountryPome fruit, herePome fruit, publishedRapeseed, hereRapeseed, publishedDE0.560.570.220.21ES0.310.260.060.03FR0.270.290.050.05IT0.220.130.060.05PL0.610.590.220.22RO0.400.470.030.05\n\n\n\n\n\nThe value differs by more, and the reason lies mostly in one crop (Table 15). In 2006, in the same prices of the previous year, we obtain 4.7 billion euro against the published 3.1 billion euro. The production value of most crops is close to the published one, despite the different coverage of EU27 and EU-28. Apples, pears and peaches are the main exception, at 6,620 million euro against 2,241 million euro. The correspondence of the method assigns three Eurostat items to this crop group, and a decision was made to add up the three as it prescribes. This one difference explains about 88 percent of the gap in the value of the flow. Flax and hemp also differ, at 390 against 1,135 million euro, but they weigh little in the flow.\n\n\n\n\nTable 15: Production value and pollination contribution in 2006, for the EU27 in this report and the EU-28 in Vallecillo et al. (2018), Tables 4.4 and 4.5. Value is in million euro at the prices of the previous year.\n\n\n\nCropValue, hereValue, publishedContribution, hereContribution, publishedFlow value, hereApples, pears and peaches6,6202,2410.380.482,487Other fruits5,4945,9230.230.301,208Rapeseed3,6704,1770.170.17591Tomatoes5,9745,9280.020.04148Sunflower1,5851,5850.090.12140Citrus fruits3,3023,2380.020.0267Soya2872870.080.1623Other oilseeds1361550.070.1220Pulses7248840.030.0318Flax and hemp3901,1350.020.047",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/methods/crop-pollination/index.html#footnotes",
+    "href": "documentation/methods/crop-pollination/index.html#footnotes",
+    "title": "Crop Pollination Ecosystem Service Accounts",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nSee scripts/01_prepare_nuts.R.↩︎\nSee scripts/07_run_expert_model.R, and scripts/helpers_pollination.R for the equations.↩︎\nSee scripts/02_download_clc.R and scripts/03_prepare_catalogue.R.↩︎\nThe route is available in scripts/07_run_expert_model.R with routes &lt;- \"catalogue\", which needs the catalogue layers that scripts/03_prepare_catalogue.R retrieves.↩︎\nSee scripts/05_prepare_roads.R.↩︎\nSee scripts/06_prepare_distance.R.↩︎\nSee scripts/03_prepare_catalogue.R.↩︎\nSee scripts/09_write_manifest.R.↩︎\nSee the function run_pilot_luxembourg() in scripts/helpers_accounts.R.↩︎\nSee scripts/03_prepare_catalogue.R.↩︎\nSee scripts/10_prepare_zone_tables.R.↩︎\nSee scripts/04_prepare_capri.R. The script scripts/04b_check_capri.R compares these layers with the original archives. That comparison has not been run, because the archives are very large.↩︎\nSee scripts/08_download_eurostat.R.↩︎\nSee scripts/11_build_physical_accounts.R, where these calculations are carried out.↩︎\nSee scripts/08_download_eurostat.R.↩︎\nSee scripts/12_build_monetary_accounts.R, where these calculations are carried out.↩︎\nSee scripts/13_write_maps_1km.R.↩︎\nSee scripts/14_write_maps_100m.R.↩︎\nSee the function supply_by_ecosystem() in scripts/helpers_accounts.R.↩︎\nSee scripts/15_check_maps_100m.R.↩︎",
+    "crumbs": [
+      "Documents",
+      "Methods",
+      "Crop Pollination Ecosystem Service Accounts"
+    ]
+  },
+  {
+    "objectID": "documentation/index.html",
+    "href": "documentation/index.html",
+    "title": "Documents",
+    "section": "",
+    "text": "This section collects the reports on the crop pollination ecosystem service accounts. A report can also be downloaded as a PDF from the link on its page.",
+    "crumbs": [
+      "Documents"
+    ]
+  },
+  {
+    "objectID": "documentation/index.html#methods-and-results",
+    "href": "documentation/index.html#methods-and-results",
+    "title": "Documents",
+    "section": "Methods and results",
+    "text": "Methods and results\n\nCrop Pollination Ecosystem Service Accounts\n\nDescribes how pollination potential, demand, actual flow and unmet demand are estimated and valued for the EU27 in 2000, 2006, 2012, 2018 and 2024, and presents the results.",
+    "crumbs": [
+      "Documents"
+    ]
+  },
+  {
+    "objectID": "downloads/index.html",
+    "href": "downloads/index.html",
+    "title": "Downloads",
+    "section": "",
+    "text": "The tables below hold the crop pollination accounts of the EU27 for 2000, 2006, 2012, 2018 and 2024, in Excel format. The two results workbooks arrange the main quantities by NUTS0, NUTS2 and NUTS3, with one column per year, and the other files are long tables that are convenient for further analysis. Monetary values are in million euro at constant 2010 prices.\nThe 100 m maps are too large for the repository, so they are kept in an external folder. It holds 40 GeoTIFF files in about 4.2 GB, with eight maps per year of potential, demand, actual flow and unmet demand, and of the value of the flow and of unmet demand. A README.md file in that folder explains the units and how to read them.\nValues for 2024 use the crop area and yield of 2018, because spatial crop data end in that year, so changes between 2018 and 2024 reflect pollination potential and national statistics and do not reflect crop relocation. The report explains how each file was produced and how to read it.\n\n\n\n\nDownload\nDescription\n\n\n\n\npollination_physical_results.xlsx\nWorkbook with potential, demand, actual flow and unmet demand by NUTS0, NUTS2 and NUTS3\n\n\npollination_monetary_results.xlsx\nWorkbook with the value of the actual flow and of unmet demand by NUTS0, NUTS2 and NUTS3\n\n\npollination_accounts_nuts_crop_year.xlsx\nPhysical accounts by NUTS region, crop and year\n\n\npollination_accounts_nuts3_crop_year.xlsx\nPhysical accounts by NUTS3 region, crop and year, with the flag for estimates\n\n\npollination_potential_nuts_year.xlsx\nHectares of high and medium potential by NUTS region and year\n\n\npollination_supply_ecosystem_nuts_year.xlsx\nActual flow by ecosystem type, NUTS region and year\n\n\npollination_contribution_country_crop_year.xlsx\nPollination contribution by country, crop and year\n\n\npollination_eu_series.xlsx\nEuropean Union series in physical terms\n\n\npollination_value_nuts_crop_year.xlsx\nValue by NUTS region, crop and year\n\n\npollination_value_country_crop_year.xlsx\nNational production value, pollination contribution and value per tonne, by crop and year\n\n\npollination_value_eu_series.xlsx\nEuropean Union series in monetary terms\n\n\n100 m maps, 2000 to 2024\nFolder with the 40 GeoTIFF files of potential, demand, actual flow, unmet demand and value at 100 m, opened in Dropbox"
+  }
+]

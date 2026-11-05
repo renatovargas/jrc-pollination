@@ -1,0 +1,16 @@
+/* css styles */
+
+/* File names stay on one line in their download button, and buttons share one width. */
+.download-table .btn {
+  display: block;
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* On a phone, long file names wrap, so the table fits the screen. */
+@media (max-width: 767.98px) {
+  .download-table .btn {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

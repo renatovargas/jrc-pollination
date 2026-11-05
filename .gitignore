@@ -1,0 +1,62 @@
+# Reference material (neither published nor versioned)
+/refs/
+
+# Quarto
+/.quarto/
+**/*.quarto_ipynb
+*_cache/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems
+Icon?
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+.fuse_hidden*
+.nfs*
+
+# Microsoft Office (lock and temporary files)
+~$*
+*.tmp
+~*.tmp
+
+# LibreOffice / OpenOffice (lock and temporary files)
+.~lock.*#
+.~*
+
+# Editors
+.vscode/
+
+*.swp
+*.swo
+
+# Never version heavy files (see AGENTS.md)
+*.zip
+
+# R graphics device default
+Rplots.pdf

@@ -1,0 +1,11 @@
+---
+title: "Documents"
+---
+
+This section collects the reports on the crop pollination ecosystem service accounts. A report can also be downloaded as
+a PDF from the link on its page.
+
+## Methods and results
+
+[Crop Pollination Ecosystem Service Accounts](methods/crop-pollination/index.qmd)
+: Describes how pollination potential, demand, actual flow and unmet demand are estimated and valued for the EU27 in 2000, 2006, 2012, 2018 and 2024, and presents the results.
