@@ -948,7 +948,8 @@ This script takes the 1 km products of the input scripts, the scaling factors of
 reporting year, of potential on all land, potential on agricultural land, the class of potential, demand, actual flow, unmet demand and the value of flow and of
 unmet demand. The maps take about 222 MB and stay outside the repository for scripts 14 and 15. The maps of 2024 use the crop area and yield of 2018, and they leave
 out the production that the tables estimate. The script draws the two map figures of this report, and it shares the flow of each kilometre among ecosystem types in
-proportion to their share of its expert-based suitability, for the table in this report. It reads the totals of the maps back from disk and stops if potential
+proportion to their share of its expert-based suitability, for the table in this report and for the sheets of actual flow by ecosystem type that it adds to the
+workbook of script 12. It reads the totals of the maps back from disk and stops if potential
 leaves the range from 0 to 1 or if a total differs from the tables. It saves the record as `maps_against_tables.rds`.
 
 ## 14_write_maps_100m.R {#script-14 .unnumbered .unlisted}

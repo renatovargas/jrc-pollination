@@ -1,5 +1,5 @@
 # Writes one sheet of a results workbook: a banner, a nested header by year and metric, one row per
-# region and a total row. Used by scripts 11 and 12 to build the NUTS0, NUTS2 and NUTS3 workbooks.
+# region and a total row. Used by scripts 12 and 13 to build the sheets of the results workbook.
 library(dplyr)
 library(tidyr)
 library(openxlsx2)

@@ -8,6 +8,7 @@
 # Outputs: refs/maps_1km/pollination_<quantity>_1km_<year>.tif, outside the repository, which script 14 reads
 #          data/outputs/figures/pollination_potential_class_2000_2024.png
 #          data/outputs/figures/pollination_demand_flow_unmet_2024.png
+#          data/outputs/results/pollination_results.xlsx, with the sheets of actual flow by ecosystem type added
 #          data/outputs/report/maps_against_tables.rds, supply_by_ecosystem.rds
 # Method : The script stops if the maps disagree with the tables, and it records the comparison for the report.
 # Run    : source("scripts/13_write_maps_1km.R", encoding = "UTF-8"), from the project root, after scripts 11
@@ -15,7 +16,7 @@
 
 source("scripts/helpers_common.R", encoding = "UTF-8")
 source("scripts/helpers_accounts.R", encoding = "UTF-8")
-library(tidyr)
+source("scripts/helpers_results.R", encoding = "UTF-8")
 
 results_dir <- "data/outputs/results"
 gis_dir <- "refs/maps_1km"
@@ -75,6 +76,28 @@ dev.off()
 
 # Supply of the flow by ecosystem type, which needs the flow maps.
 ecosystem_supply <- bind_rows(lapply(years_report, supply_by_ecosystem))
+
+# Sheets of the results workbook, added here because they need the flow maps. Running the script again replaces them.
+ecosystem_nuts <- to_nuts_levels(ecosystem_supply, regions, by = c("ecosystem", "year"), values = "flow_t") |>
+  pivot_wider(names_from = ecosystem, values_from = flow_t)
+ecosystem_names <- sort(unique(ecosystem_supply$ecosystem))
+workbook_file <- file.path(results_dir, "pollination_results.xlsx")
+wb <- wb_load(workbook_file)
+for (lv in c("NUTS0", "NUTS2", "NUTS3")) {
+  sheet <- paste("Flow by ecosystem", lv)
+  if (sheet %in% wb_get_sheet_names(wb)) wb <- wb_remove_worksheet(wb, sheet)
+  wb <- write_results_sheet(
+    wb, sheet,
+    title = paste0("Actual flow in physical terms by ecosystem type, in tonnes, ", lv),
+    note = paste("The flow of each kilometre is shared in proportion to the expert-based suitability of each ecosystem type. This is the mapped",
+                 "flow, without the estimates of the Flow sheets, which include Croatia, Malta and Cyprus. Values of 2024 use the crop area and yield",
+                 "of 2018, so changes between 2018 and 2024 reflect pollination potential and national statistics, and not crop relocation."),
+    data = filter(ecosystem_nuts, level == lv),
+    metrics = setNames(paste(ecosystem_names, "(t)"), ecosystem_names)
+  )
+}
+wb_save(wb, workbook_file, overwrite = TRUE)
+
 save_report_table(
   ecosystem_supply |>
     inner_join(filter(regions, level == "NUTS3") |> select(id), by = "id") |>
