@@ -2,13 +2,11 @@
 #
 # Why    : this is the calculation on tables that follows the physical accounts, and it runs in seconds.
 # Inputs : data/outputs/results/pollination_accounts_nuts3_crop_year.rds (script 11)
+#          data/outputs/results/pollination_accounts_nuts_year.rds and pollination_potential_nuts_year.rds (script 11)
 #          data/outputs/results/pollination_contribution_country_crop_year.rds (script 11)
 #          data/inputs/eurostat/eaa_value_crop.rds and hicp_eu27.rds (script 08)
-# Outputs: data/outputs/results/pollination_value_country_crop_year    which script 13 reads
-#          data/outputs/results/pollination_value_nuts_crop_year
-#          data/outputs/results/pollination_value_nuts_year
-#          data/outputs/results/pollination_value_eu_series            each as rds and xlsx
-#          data/outputs/results/pollination_monetary_results.xlsx      workbook by NUTS level
+# Outputs: data/outputs/results/pollination_value_country_crop_year.rds, which script 13 reads
+#          data/outputs/results/pollination_results.xlsx               the workbook of the Downloads page
 #          data/outputs/report/                                        small tables for the report
 #          data/outputs/figures/pollination_value_country_2024.png
 # Method : Value of the flow is production value times the pollination contribution, in prices of 2010.
@@ -23,6 +21,8 @@ base_year <- 2010
 regions <- read_regions()
 crops <- read_crops()
 combined <- readRDS("data/outputs/results/pollination_accounts_nuts3_crop_year.rds")
+nuts_total <- readRDS("data/outputs/results/pollination_accounts_nuts_year.rds")
+potential_nuts <- readRDS("data/outputs/results/pollination_potential_nuts_year.rds")
 contribution <- readRDS("data/outputs/results/pollination_contribution_country_crop_year.rds")
 eaa <- readRDS("data/inputs/eurostat/eaa_value_crop.rds") |> filter(!is.na(value_meur))
 hicp <- readRDS("data/inputs/eurostat/hicp_eu27.rds")
@@ -73,7 +73,6 @@ region_value <- combined |>
   inner_join(select(national_value, geo, crop, year, eur_per_t), by = c("geo", "crop", "year")) |>
   mutate(flow_meur2010 = flow_t * eur_per_t / 1e6, unmet_meur2010 = unmet_t * eur_per_t / 1e6)
 
-nuts_value_crop <- to_nuts_levels(region_value, regions, by = c("crop", "year"), values = c("flow_meur2010", "unmet_meur2010"))
 nuts_value <- to_nuts_levels(region_value, regions, by = "year", values = c("flow_meur2010", "unmet_meur2010"))
 
 # Checks, which stop the script on failure.
@@ -89,23 +88,48 @@ checks <- bind_rows(
   record_check(levels_check$NUTS3, levels_check$NUTS0, "Value of flow by NUTS3 against NUTS0")
 )
 
-# Exports.
-export_table(national_value, "pollination_value_country_crop_year")
-export_table(nuts_value_crop, "pollination_value_nuts_crop_year")
-export_table(nuts_value, "pollination_value_nuts_year")
-export_table(monetary_series, "pollination_value_eu_series")
+# The table that script 13 reads.
+save_result(national_value, "pollination_value_country_crop_year")
 
-wb <- wb_workbook()
-for (lv in c("NUTS0", "NUTS2", "NUTS3")) {
-  wb <- write_results_sheet(
-    wb, paste("Value", lv),
-    title = paste("Value of the actual flow and of unmet demand by", lv, "region, million euro at constant 2010 prices"),
-    note = "Values of 2024 use the crop area and yield of 2018. Croatia, Malta and Cyprus are estimates.",
-    data = filter(nuts_value, level == lv),
+# The results workbook, with four tables at three NUTS levels.
+crop_note <- paste("Values of 2024 use the crop area and yield of 2018, so changes between 2018 and 2024 reflect pollination",
+                   "potential and national statistics, and not crop relocation. Croatia, Malta and Cyprus are estimates.")
+workbook_tables <- list(
+  Potential = list(
+    data = potential_nuts,
+    title = "Land of high and medium pollination potential, on all ecosystem types and on agroecosystems, in hectares",
+    note = "High potential is above 0.3 and medium potential from 0.2 to 0.3.",
+    metrics = c(land_ha_high = "High potential, all land (ha)", land_ha_medium = "Medium potential, all land (ha)",
+                agro_ha_high = "High potential, agroecosystems (ha)", agro_ha_medium = "Medium potential, agroecosystems (ha)")
+  ),
+  Demand = list(
+    data = nuts_total,
+    title = "Demand, the area of pollinator-dependent crops, in hectares",
+    note = crop_note,
+    metrics = c(area_ha = "Demand (ha)", area_met_ha = "Met (ha)", area_unmet_ha = "Unmet (ha)")
+  ),
+  Flow = list(
+    data = nuts_total,
+    title = "Actual flow and unmet demand in physical terms, in tonnes",
+    note = paste(crop_note, "The flow has the same total on all ecosystem types and on agroecosystems, and only the 100 m maps place it differently."),
+    metrics = c(flow_t = "Actual flow (t)", unmet_t = "Unmet demand (t)")
+  ),
+  Value = list(
+    data = nuts_value,
+    title = "Actual flow and unmet demand in monetary terms, in million euro at constant 2010 prices",
+    note = paste(crop_note, "Eurostat holds no production value for Croatia and Cyprus in 2000, so those cells are blank."),
     metrics = c(flow_meur2010 = "Actual flow", unmet_meur2010 = "Unmet demand")
   )
+)
+wb <- wb_workbook()
+for (table_name in names(workbook_tables)) {
+  table <- workbook_tables[[table_name]]
+  for (lv in c("NUTS0", "NUTS2", "NUTS3")) {
+    wb <- write_results_sheet(wb, paste(table_name, lv), title = paste0(table$title, ", ", lv), note = table$note,
+                              data = filter(table$data, level == lv), metrics = table$metrics)
+  }
 }
-wb_save(wb, "data/outputs/results/pollination_monetary_results.xlsx", overwrite = TRUE)
+wb_save(wb, "data/outputs/results/pollination_results.xlsx", overwrite = TRUE)
 
 # Small tables for the report.
 save_report_table(checks, "checks_monetary")

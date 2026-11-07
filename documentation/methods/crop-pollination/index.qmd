@@ -5,6 +5,9 @@ author:
   - name: Renato Vargas
     affiliations:
       - name: Consultant for JRC
+  - name: Ken Bagstad
+    affiliations:
+      - name: Senior Fellow at the Data Foundation
   - name: Alessandra La Notte
     affiliations:
       - name: Senior Environmental Economist at European Dynamics
@@ -20,7 +23,7 @@ format:
     # The default PDF title block leaves out affiliations, so the block is set here.
     include-in-header:
       text: |
-        \AtBeginDocument{\author{Renato Vargas\\ {\small Consultant for JRC} \and Alessandra La Notte\\ {\small Senior Environmental Economist at European Dynamics}}}
+        \AtBeginDocument{\author{Renato Vargas\\ {\small Consultant for JRC} \and Ken Bagstad\\ {\small Senior Fellow at the Data Foundation} \and Alessandra La Notte\\ {\small Senior Environmental Economist at European Dynamics}}}
 bibliography: crop-pollination.bib
 csl: ../../../assets/apa-6th-edition.csl
 execute:
@@ -141,7 +144,7 @@ and what the estimates show. The calculations are carried out by a series of scr
 <https://github.com/renatovargas/jrc-pollination/tree/main/scripts>, listed in @tbl-scripts in the order in which they run. Each
 step of the Methods section points to the entry of its script in Annex I, which explains what the script does and links to its
 code. The file [run_all.R](#script-run-all) runs the whole series or any of its stages, and any single script can run again when
-only one input changes. The tables and the 100 m maps can be retrieved from the Downloads page of this site.
+only one input changes. The results workbook and the 100 m maps can be retrieved from the Downloads page of this site.
 
 | Script | Purpose |
 |:-------|:--------|
@@ -921,10 +924,9 @@ This script takes the tables of script 10, the national production of script 08 
 each crop and country to Eurostat, and it sets aside the cases whose scaling factor is above 10 or below 0.1. Production with no place on the map, which
 includes Croatia, Malta and Cyprus, takes an estimate from the agricultural land of each region. The script then computes demand, actual flow and unmet demand by
 NUTS3 region and adds them up to the levels NUTS2 and NUTS0. It stops if the levels do not add up, if flow and unmet demand do not add up to dependent
-production or if national production does not match Eurostat. It saves `pollination_accounts_nuts3_crop_year` for scripts 12 and 13,
-`pollination_contribution_country_crop_year` for script 12 and `pollination_eurostat_factors` for script 13, with other result tables, each as rds and xlsx. It
-also writes the workbook of the Downloads page, `pollination_physical_results.xlsx`, and the small tables of the physical results, which include the comparison
-with the published contributions of @vallecillo2018.
+production or if national production does not match Eurostat. It saves the accounts by NUTS3 region, crop and year for scripts 12 and 13, the national
+contribution, the totals by NUTS level and the land by class of potential for script 12, and the scaling factors for script 13, all as rds files. It also saves the small
+tables of the physical results, which include the comparison with the published contributions of @vallecillo2018.
 
 ## 12_build_monetary_accounts.R {#script-12 .unnumbered .unlisted}
 
@@ -934,8 +936,8 @@ This script takes the accounts of script 11 and the production value and price i
 the pollination contribution to obtain the value of the flow, and by the share of unmet demand in production to obtain the value of unmet demand. It converts
 both to constant 2010 prices with the price index. Regions receive the national value in proportion to their physical quantities, through a value per tonne that is
 uniform within a crop and country. The script stops if the levels do not add up or if the value of the flow exceeds the production value times the dependency
-ratio. It saves `pollination_value_country_crop_year` for script 13, other result tables as rds and xlsx, and the workbook of the Downloads page,
-`pollination_monetary_results.xlsx`. It also saves the small tables of the monetary results, which include the comparison with the published values of
+ratio. It saves `pollination_value_country_crop_year` for script 13, and it writes the workbook of the Downloads page, `pollination_results.xlsx`, which holds
+potential, demand, actual flow, unmet demand and their value at the levels NUTS0, NUTS2 and NUTS3. It also saves the small tables of the monetary results, which include the comparison with the published values of
 @vallecillo2018, and the figure of the value by country.
 
 ## 13_write_maps_1km.R {#script-13 .unnumbered .unlisted}
@@ -946,9 +948,8 @@ This script takes the 1 km products of the input scripts, the scaling factors of
 reporting year, of potential on all land, potential on agricultural land, the class of potential, demand, actual flow, unmet demand and the value of flow and of
 unmet demand. The maps take about 222 MB and stay outside the repository for scripts 14 and 15. The maps of 2024 use the crop area and yield of 2018, and they leave
 out the production that the tables estimate. The script draws the two map figures of this report, and it shares the flow of each kilometre among ecosystem types in
-proportion to their share of its expert-based suitability, which gives `pollination_supply_ecosystem_nuts_year`. It reads the totals of the maps back from disk and
-stops if potential leaves the range from 0 to 1 or if a total differs from the tables. It saves the record as `pollination_map_totals.rds` and
-`maps_against_tables.rds`.
+proportion to their share of its expert-based suitability, for the table in this report. It reads the totals of the maps back from disk and stops if potential
+leaves the range from 0 to 1 or if a total differs from the tables. It saves the record as `maps_against_tables.rds`.
 
 ## 14_write_maps_100m.R {#script-14 .unnumbered .unlisted}
 
@@ -991,4 +992,4 @@ These files hold the steps that several scripts share, and they do not run on th
 the climate period behind each year, the rule that the crop data of 2018 stand in for 2024, the equations of the expert-based model, the classes of potential and the allocation
 from 1 km to 100 m. The third reads the 1 km products, adds up rasters by region, scales production to Eurostat, estimates production with no place on the map, adds up the NUTS
 levels and builds the 1 km maps. It also holds the run of the model on the clips of Luxembourg and the sharing of flow among ecosystem types. The fourth lays out the sheets of the
-workbooks, and the fifth reads the small tables and formats them for this report.
+workbook, and the fifth reads the small tables and formats them for this report.

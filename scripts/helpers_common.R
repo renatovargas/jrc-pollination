@@ -10,18 +10,15 @@ library(terra)
 # Export and checks
 # ---------------------------------------------------------------------------
 
-#' Save a table as rds and xlsx in one call.
+#' Save a table that a later script reads.
 #'
 #' @param x A data frame.
 #' @param name File name without extension.
 #' @param dir Output directory.
-#' @return The two file paths, invisibly.
-export_table <- function(x, name, dir = "data/outputs/results") {
+save_result <- function(x, name, dir = "data/outputs/results") {
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
-  paths <- file.path(dir, paste0(name, c(".rds", ".xlsx")))
-  saveRDS(x, paths[1])
-  writexl::write_xlsx(x, paths[2])
-  invisible(paths)
+  saveRDS(x, file.path(dir, paste0(name, ".rds")))
+  invisible(x)
 }
 
 #' Save a small table that the report reads.

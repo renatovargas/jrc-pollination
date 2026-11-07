@@ -2,9 +2,9 @@
 title: "Downloads"
 ---
 
-The tables below hold the crop pollination accounts of the EU27 for 2000, 2006, 2012, 2018 and 2024, in Excel format. The
-two results workbooks arrange the main quantities by NUTS0, NUTS2 and NUTS3, with one column per year, and the other files
-are long tables that are convenient for further analysis. Monetary values are in million euro at constant 2010 prices.
+The workbook below holds the crop pollination accounts of the EU27 for 2000, 2006, 2012, 2018 and 2024, in Excel format. It arranges
+potential, demand, actual flow and unmet demand by NUTS0, NUTS2 and NUTS3, with one column per year, in physical terms and in monetary
+terms. Monetary values are in million euro at constant 2010 prices.
 
 The 100 m maps are too large for the repository, so they are kept in an external folder. It holds 40 GeoTIFF files in about
 4.2 GB, with eight maps per year of potential, demand, actual flow and unmet demand, and of the value of the flow and of
@@ -18,17 +18,7 @@ Values for 2024 use the crop area and yield of 2018, because spatial crop data e
 
 | Download | Description |
 |:---|:---|
-| [pollination_physical_results.xlsx](../data/outputs/results/pollination_physical_results.xlsx){.btn .btn-primary .btn-sm download=""} | Workbook with potential, demand, actual flow and unmet demand by NUTS0, NUTS2 and NUTS3 |
-| [pollination_monetary_results.xlsx](../data/outputs/results/pollination_monetary_results.xlsx){.btn .btn-primary .btn-sm download=""} | Workbook with the value of the actual flow and of unmet demand by NUTS0, NUTS2 and NUTS3 |
-| [pollination_accounts_nuts_crop_year.xlsx](../data/outputs/results/pollination_accounts_nuts_crop_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Physical accounts by NUTS region, crop and year |
-| [pollination_accounts_nuts3_crop_year.xlsx](../data/outputs/results/pollination_accounts_nuts3_crop_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Physical accounts by NUTS3 region, crop and year, with the flag for estimates |
-| [pollination_potential_nuts_year.xlsx](../data/outputs/results/pollination_potential_nuts_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Hectares of high and medium potential by NUTS region and year |
-| [pollination_supply_ecosystem_nuts_year.xlsx](../data/outputs/results/pollination_supply_ecosystem_nuts_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Actual flow by ecosystem type, NUTS region and year |
-| [pollination_contribution_country_crop_year.xlsx](../data/outputs/results/pollination_contribution_country_crop_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Pollination contribution by country, crop and year |
-| [pollination_eu_series.xlsx](../data/outputs/results/pollination_eu_series.xlsx){.btn .btn-outline-primary .btn-sm download=""} | European Union series in physical terms |
-| [pollination_value_nuts_crop_year.xlsx](../data/outputs/results/pollination_value_nuts_crop_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | Value by NUTS region, crop and year |
-| [pollination_value_country_crop_year.xlsx](../data/outputs/results/pollination_value_country_crop_year.xlsx){.btn .btn-outline-primary .btn-sm download=""} | National production value, pollination contribution and value per tonne, by crop and year |
-| [pollination_value_eu_series.xlsx](../data/outputs/results/pollination_value_eu_series.xlsx){.btn .btn-outline-primary .btn-sm download=""} | European Union series in monetary terms |
+| [pollination_results.xlsx](../data/outputs/results/pollination_results.xlsx){.btn .btn-primary .btn-sm download=""} | Workbook with potential, demand, actual flow and unmet demand, in physical and monetary terms, by NUTS0, NUTS2 and NUTS3 |
 | [100 m maps, 2000 to 2024](https://www.dropbox.com/scl/fo/ded51pscdxqocaemensyg/ALnrzD0uhGEpLPh11yBZmGY?rlkey=99a9yq14xqmvkj1litx65nge7&st=im205cnv&dl=0){.btn .btn-primary .btn-sm target="_blank"} | Folder with the 40 GeoTIFF files of potential, demand, actual flow, unmet demand and value at 100 m, opened in Dropbox |
 
 :::

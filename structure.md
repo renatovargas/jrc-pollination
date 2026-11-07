@@ -21,7 +21,7 @@ rules in `AGENTS.md` still apply. This file only adds what those rules do not co
 │           ├── index.qmd     the report
 │           └── <topic-name>.bib
 ├── downloads/
-│   └── index.qmd             buttons to the Excel tables and the 100 m maps, HTML only
+│   └── index.qmd             buttons to the results workbook and the 100 m maps, HTML only
 ├── scripts/
 │   ├── run_all.R             runs the pipeline, or some of its stages, in order
 │   ├── NN_<verb>_<object>.R  numbered scripts of the pipeline
@@ -43,7 +43,7 @@ rules in `AGENTS.md` still apply. This file only adds what those rules do not co
 │   │   ├── intermediate/     tables by region computed from the rasters (rds)
 │   │   └── pilot_lu/         100 m inputs clipped to Luxembourg, to test the 100 m chain
 │   └── outputs/
-│       ├── results/          tables (rds, xlsx)
+│       ├── results/          tables for later scripts (rds) and the results workbook (xlsx)
 │       ├── report/           small tables that the scripts write for the report (rds)
 │       └── figures/          figures that the scripts write for the report (png)
 ├── research/                 notes, not published
@@ -118,8 +118,8 @@ in its own `format`, so `_quarto.yml` sets HTML alone.
 
 ## Data and file names
 
-- Maps are named `pollination_<quantity>_<resolution>_<year>.tif` and tables `pollination_<quantity>_<dimensions>.xlsx`.
-- Every table is exported as `.rds` and `.xlsx` with the same name. Intermediate tables are `.rds` only. CSV is kept only for short files edited or read by hand, namely the parameters, the region list and the manifest.
+- Maps are named `pollination_<quantity>_<resolution>_<year>.tif` and tables `pollination_<quantity>_<dimensions>.rds`.
+- The only Excel file is the results workbook, `pollination_results.xlsx`, and other tables are `.rds` only. CSV is kept only for short files edited or read by hand, namely the parameters, the region list and the manifest.
 - The 1 km reductions of the expert-based model in `data/inputs/ebm/` are 16-bit whole numbers, each band multiplied by a factor. `read_ebm()` and `read_reduction()` return the original 32-bit values, so always read them through those functions, because a direct reading can tip a cell that sits on a threshold of potential.
 - The 1 km maps are written as 32-bit floats with `COMPRESS=DEFLATE`, `PREDICTOR=3` and `TILED=YES`. The 100 m rasters are written as whole numbers in small units with `COMPRESS=DEFLATE`, `PREDICTOR=2` and `TILED=YES`, and the unit is part of the quantity name.
 - All maps use EPSG:3035, on a grid aligned with the Corine grid.

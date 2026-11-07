@@ -8,8 +8,6 @@
 # Outputs: refs/maps_1km/pollination_<quantity>_1km_<year>.tif, outside the repository, which script 14 reads
 #          data/outputs/figures/pollination_potential_class_2000_2024.png
 #          data/outputs/figures/pollination_demand_flow_unmet_2024.png
-#          data/outputs/results/pollination_supply_ecosystem_nuts_year.rds and .xlsx
-#          data/outputs/results/pollination_map_totals.rds
 #          data/outputs/report/maps_against_tables.rds, supply_by_ecosystem.rds
 # Method : The script stops if the maps disagree with the tables, and it records the comparison for the report.
 # Run    : source("scripts/13_write_maps_1km.R", encoding = "UTF-8"), from the project root, after scripts 11
@@ -77,8 +75,6 @@ dev.off()
 
 # Supply of the flow by ecosystem type, which needs the flow maps.
 ecosystem_supply <- bind_rows(lapply(years_report, supply_by_ecosystem))
-export_table(to_nuts_levels(ecosystem_supply, regions, by = c("ecosystem", "year"), values = "flow_t"),
-             "pollination_supply_ecosystem_nuts_year")
 save_report_table(
   ecosystem_supply |>
     inner_join(filter(regions, level == "NUTS3") |> select(id), by = "id") |>
@@ -100,7 +96,6 @@ map_totals <- bind_rows(lapply(years_report, function(year) {
     potential_min = range_potential[1], potential_max = range_potential[2]
   )
 }))
-saveRDS(map_totals, file.path(results_dir, "pollination_map_totals.rds"))
 
 mapped <- mapped_table_totals(combined, prices)
 stopifnot(all(map_totals$potential_min >= 0), all(map_totals$potential_max <= 1))

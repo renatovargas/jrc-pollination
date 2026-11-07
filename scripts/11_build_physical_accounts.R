@@ -4,22 +4,19 @@
 # Inputs : data/inputs/intermediate/capri_by_zone.rds and farmland_by_zone.rds (script 10)
 #          data/inputs/eurostat/production_crop.rds (script 08)
 #          data/inputs/params/crop_dependency.csv, data/inputs/gis/nuts_regions.csv
-# Outputs: data/outputs/results/pollination_accounts_nuts3_crop_year   by NUTS3, crop and year
-#          data/outputs/results/pollination_accounts_nuts_crop_year    by NUTS level, crop and year
-#          data/outputs/results/pollination_accounts_nuts_year         by NUTS level and year
-#          data/outputs/results/pollination_potential_nuts_year        hectares of high and medium potential
-#          data/outputs/results/pollination_contribution_country_crop_year
-#          data/outputs/results/pollination_eurostat_factors           scaling factors, which script 13 reads
-#          data/outputs/results/pollination_eu_series                  each as rds and xlsx
-#          data/outputs/results/pollination_physical_results.xlsx      workbook by NUTS level
-#          data/outputs/report/                                        small tables for the report
+# Outputs: data/outputs/results/pollination_accounts_nuts3_crop_year.rds  by NUTS3, crop and year, for scripts 12 and 13
+#          data/outputs/results/pollination_accounts_nuts_year.rds        by NUTS level and year, for script 12
+#          data/outputs/results/pollination_potential_nuts_year.rds       hectares of high and medium potential, for script 12
+#          data/outputs/results/pollination_contribution_country_crop_year.rds  for script 12
+#          data/outputs/results/pollination_eurostat_factors.rds          scaling factors, for script 13
+#          data/outputs/report/                                           small tables for the report
 # Method : The CAPRI pattern of each crop is scaled to Eurostat production. Production with no place on the
 #          map is estimated from the farmland of each region. The script stops if a check fails.
 # Run    : source("scripts/11_build_physical_accounts.R", encoding = "UTF-8"), from the project root.
 
 source("scripts/helpers_common.R", encoding = "UTF-8")
 source("scripts/helpers_accounts.R", encoding = "UTF-8")
-source("scripts/helpers_results.R", encoding = "UTF-8")
+library(tidyr)
 
 regions <- read_regions()
 crops <- read_crops()
@@ -102,7 +99,6 @@ eu_series <- contribution |>
 
 # The tables add up the NUTS3 values, so the three levels match exactly.
 value_columns <- c("area_ha", "area_met_ha", "area_unmet_ha", "total_t", "flow_t", "unmet_t")
-nuts_crop <- to_nuts_levels(combined, regions, by = c("crop", "year"), values = value_columns)
 nuts_total <- to_nuts_levels(combined, regions, by = "year", values = value_columns)
 
 # Checks, which stop the script on failure.
@@ -124,33 +120,12 @@ checks <- bind_rows(
   record_check(anchor_check$total_t, anchor_check$production_t, "National production against Eurostat", tolerance = 1e-3)
 )
 
-# Exports.
-export_table(combined, "pollination_accounts_nuts3_crop_year")
-export_table(nuts_crop, "pollination_accounts_nuts_crop_year")
-export_table(nuts_total, "pollination_accounts_nuts_year")
-export_table(potential_nuts, "pollination_potential_nuts_year")
-export_table(contribution, "pollination_contribution_country_crop_year")
-export_table(factors, "pollination_eurostat_factors")
-export_table(eu_series, "pollination_eu_series")
-
-metrics <- list(
-  Potential = list(data = potential_nuts, metrics = c(land_ha_high = "High potential (ha)", land_ha_medium = "Medium potential (ha)")),
-  Demand = list(data = nuts_total, metrics = c(area_ha = "Demand (ha)", area_met_ha = "Met (ha)", area_unmet_ha = "Unmet (ha)")),
-  Flow = list(data = nuts_total, metrics = c(flow_t = "Actual flow (t)", unmet_t = "Unmet demand (t)"))
-)
-wb <- wb_workbook()
-for (table_name in names(metrics)) {
-  for (lv in c("NUTS0", "NUTS2", "NUTS3")) {
-    wb <- write_results_sheet(
-      wb, paste(table_name, lv),
-      title = paste(table_name, "by", lv, "region"),
-      note = "Demand and flow of 2024 use the crop area and yield of 2018. Croatia, Malta and Cyprus are estimates.",
-      data = filter(metrics[[table_name]]$data, level == lv),
-      metrics = metrics[[table_name]]$metrics
-    )
-  }
-}
-wb_save(wb, "data/outputs/results/pollination_physical_results.xlsx", overwrite = TRUE)
+# Tables that later scripts read.
+save_result(combined, "pollination_accounts_nuts3_crop_year")
+save_result(nuts_total, "pollination_accounts_nuts_year")
+save_result(potential_nuts, "pollination_potential_nuts_year")
+save_result(contribution, "pollination_contribution_country_crop_year")
+save_result(factors, "pollination_eurostat_factors")
 
 # Small tables for the report.
 save_report_table(checks, "checks_physical")
