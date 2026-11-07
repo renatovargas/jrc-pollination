@@ -1,5 +1,6 @@
 # Download the OpenStreetMap major roads and rasterise them on the 100 m Corine grid.
 #
+# Why    : cells on a major road score zero in the expert-based model, and the network the method names is proprietary.
 # Source : OpenStreetMap contributors (Open Database Licence), main road extract published by the
 #          k.LAB geoserver as layer im-data-global-infrastructure:osm_main_roads_laea_4326, with the
 #          attribute `highway`. Motorway, trunk and primary roads and their links correspond to the

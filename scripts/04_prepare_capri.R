@@ -1,10 +1,10 @@
 # Reduce the disaggregated CAPRI data to compact stacks of the ten pollinator-dependent crops.
 #
+# Why    : demand and production come from these layers, and the stacks let the tables run from the repository.
 # Source : Koeble et al. (2024), EU Wide Disaggregated CAPRI Model Data, Zenodo,
 #          https://doi.org/10.5281/zenodo.13992301, licence CC-BY 4.0, 1 km, EPSG:3035, 2000 to 2018.
 #          The layers are read as cloud-optimised GeoTIFFs from the public STAC catalogue
 #          (collection jrc_data_catalog), which holds the same variables for the reporting years.
-#          Script 04b_check_capri.R compares them with the original archives.
 # Outputs: data/inputs/capri/capri_area_ha_<year>.tif     one band per crop, hectares per 1 km cell
 #          data/inputs/capri/capri_yield_kgha_<year>.tif  one band per crop, kilograms per hectare
 # Run    : source("scripts/04_prepare_capri.R", encoding = "UTF-8"), once, from the project root.

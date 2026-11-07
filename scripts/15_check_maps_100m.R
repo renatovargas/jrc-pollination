@@ -2,14 +2,15 @@
 #
 # Why    : the 100 m maps are stored as whole numbers outside the repository, so this script records that
 #          they still agree with the 1 km maps that the tables are based on.
-# Inputs : refs/maps_100m/pollination_<quantity>_100m_<year>.tif (script 10)
+# Inputs : refs/maps_100m/pollination_<quantity>_100m_<year>.tif (script 14)
 #          refs/maps_1km/pollination_<quantity>_1km_<year>.tif (script 13)
 # Outputs: data/outputs/results/check_maps_100m_totals.rds, with the total of every map at both resolutions.
 #          Potential is an average, so its rows compare means.
 #          data/outputs/results/check_maps_100m_cells.rds, with the comparison by 1 km cell.
 # Method : Both comparisons read each map in blocks, one map at a time, so they need little memory. The
 #          comparison by cell aggregates each 100 m map to the 1 km grid. Each 100 m cell is rounded to a
-#          whole unit, so a 1 km cell can differ by at most 50 units because of rounding.
+#          whole unit, so a 1 km cell can differ by at most 50 units because of rounding. The script stops if
+#          a cell exceeds that limit or if a total differs by more than one part in a thousand.
 # Run    : source("scripts/15_check_maps_100m.R", encoding = "UTF-8"), from the project root, after script
 #          14. Finished rows are kept, so a new run resumes. Set `cell_years` in the session for a subset of years.
 
@@ -89,3 +90,9 @@ cells <- run_jobs(tidyr::crossing(pairs, year = cell_years),
 print(as.data.frame(cells), digits = 5)
 
 unlink(work_dir, recursive = TRUE)
+
+# Checks, which stop the script on failure. Potential is an average of different cells at each resolution, so
+# only the totals have a tolerance.
+sum_gaps <- abs(totals$relative_gap[totals$statistic == "sum"])
+if (any(sum_gaps > 1e-3)) stop("A total differs from the 1 km map by ", signif(max(sum_gaps), 3))
+if (sum(cells$cells_over_limit, na.rm = TRUE) > 0) stop("Some 1 km cells differ by more than rounding allows")

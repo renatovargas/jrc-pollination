@@ -34,7 +34,7 @@ rules in `AGENTS.md` still apply. This file only adds what those rules do not co
 │   ├── inputs/
 │   │   ├── manifest_heavy_inputs.csv  heavy sources kept in refs/, with URL, DOI, size and md5
 │   │   ├── params/           scores, dependency ratios and country list
-│   │   ├── gis/              NUTS boundaries and the 1 km zone raster
+│   │   ├── gis/              NUTS boundaries, as distributed and for the EU27, and the 1 km zone raster
 │   │   ├── capri/            crop area and yield, 1 km
 │   │   ├── climate/          activity index, 1 km
 │   │   ├── sdm/              bumblebee model, 1 km
@@ -48,7 +48,7 @@ rules in `AGENTS.md` still apply. This file only adds what those rules do not co
 │       └── figures/          figures that the scripts write for the report (png)
 ├── research/                 notes, not published
 ├── refs/                     downloads, reference files and maps, not versioned
-│   ├── ebm_catalogue/        1 km reductions of the catalogue route, kept from the comparison of input routes
+│   ├── ebm_catalogue/        1 km reductions of the catalogue route, read by 07b
 │   ├── maps_1km/             1 km maps (GeoTIFF), written by 13, read by 14 and 15
 │   └── maps_100m/            100 m maps (GeoTIFF), written by 14, published outside the repository
 └── docs/                     rendered site, generated, do not edit
@@ -82,10 +82,10 @@ All calculation is in the scripts, and the report reads their small tables and f
 | `02_download_clc.R` | Corine accounting layers, version 21 |
 | `03_prepare_catalogue.R` | Activity index, bumblebee model, catalogue land cover and distance |
 | `04_prepare_capri.R` | Compact crop area and yield stacks |
-| `04b_check_capri.R` | Comparison of the stacks with the original archives |
 | `05_prepare_roads.R` | Major roads rasterised at 100 m |
 | `06_prepare_distance.R` | Distance to semi-natural areas at 100 m |
 | `07_run_expert_model.R` | Expert-based model at 100 m, in tiles, with its 1 km reduction |
+| `07b_compare_routes.R` | Comparison of the rebuilt and catalogue routes, run by hand |
 | `08_download_eurostat.R` | Production, production value and price index |
 | `09_write_manifest.R` | Manifest of the heavy inputs and the Luxembourg clips |
 | `10_prepare_zone_tables.R` | Tables by region from the rasters, and small summaries of the layers |
@@ -104,11 +104,13 @@ The site has three entries in the top bar, "Home", "Documents" and "Downloads". 
 ## Report
 
 The report is a narrative with no visible code, and it has these sections, in this order: Summary, Introduction, Methods,
-Results, Limitations and References. Methods follows the logical order of the scripts, with substeps inside each, and it
+Results, Limitations, Appendix, References and Annex I. Methods follows the logical order of the scripts, with substeps inside each, and it
 explains why each decision was taken. Results follows the products. Only the report has a PDF version, which it declares
 in its own `format`, so `_quarto.yml` sets HTML alone.
 
-- Every step of the method carries a footnote that names its script.
+- Every step of the method links to the entry of its script in Annex I, written as `(see [05_prepare_roads.R in Annex I](#script-05))`.
+- Annex I has one entry per file in `scripts/`, in the order in which they run. Each entry has the file name as its heading, a link to the file on GitHub and a short paragraph in plain English with no code. A change to a script updates its entry.
+- The table of scripts in the Introduction is a markdown table, because its names link to Annex I in both HTML and PDF.
 - Numbers in the text come from `data/outputs/report/` through inline code.
 - Chunks only read a small table and show it, and their labels are lowercase words separated by hyphens.
 - Callouts use `callout-note` for context and `callout-important` for anything that changes how the results should be read.

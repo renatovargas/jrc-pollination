@@ -1,5 +1,6 @@
 # Distance from every 100 m cell to the nearest semi-natural area, for the five reporting years.
 #
+# Why    : the score of a cell decays with its distance to natural habitat, and version 21 has no ready-made distance map.
 # Input  : refs/clc_accounting/<year>/**/*.tif (Corine accounting layers, version 21, script 02)
 #          Semi-natural classes follow Garibaldi et al. (2011): 311, 312, 313, 321, 322, 323, 324, 331, 333.
 # Output : refs/distance/dist_seminatural_100m_<year>.tif. Euclidean distance in metres between cell

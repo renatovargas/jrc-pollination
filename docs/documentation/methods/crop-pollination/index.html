@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Renato Vargas">
+<meta name="author" content="Alessandra La Notte">
 
 <title>Crop Pollination Ecosystem Service Accounts – Crop Pollination</title>
 <style>
@@ -257,6 +259,7 @@ window.Quarto = {
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">4</span> Limitations</a></li>
   <li><a href="#appendix-land-cover-scores" id="toc-appendix-land-cover-scores" class="nav-link" data-scroll-target="#appendix-land-cover-scores">Appendix: land cover scores</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#annex-i.-scripts-of-the-pipeline" id="toc-annex-i.-scripts-of-the-pipeline" class="nav-link" data-scroll-target="#annex-i.-scripts-of-the-pipeline">Annex I. Scripts of the pipeline</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/renatovargas/jrc-pollination/blob/main/documentation/methods/crop-pollination/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -266,14 +269,35 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../documentation/methods/crop-pollination/index.html">Methods</a></li><li class="breadcrumb-item"><a href="../../../documentation/methods/crop-pollination/index.html">Crop Pollination Ecosystem Service Accounts</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Crop Pollination Ecosystem Service Accounts</h1>
-<p class="subtitle lead">European Union, 2000 to 2024: methods and results</p>
+<p class="subtitle lead">European Union, 2000 to 2024 series update: processing methods and results</p>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Renato Vargas </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Consultant for JRC
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Alessandra La Notte </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Senior Environmental Economist at European Dynamics
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -290,20 +314,89 @@ window.Quarto = {
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>Crop pollination is the fertilisation of crops by wild insects, which maintains or increases crop production. Ecosystem accounting treats it as a service that ecosystems supply and farmers use. It therefore needs a measure of what the environment can supply, a measure of where crops need it, and an estimate of what results when the two overlap <span class="citation" data-cites="vallecillo2018">(<a href="#ref-vallecillo2018" role="doc-biblioref">Vallecillo et al., 2018</a>)</span>.</p>
-<p>This report describes how we estimated those three quantities and valued the result, why we took each decision along the way and what the estimates show. The calculations are carried out by a series of scripts in the <code>scripts/</code> folder of this repository, listed in <a href="#tbl-scripts" class="quarto-xref">Table&nbsp;1</a> in the order in which they run. Each step of the Methods section carries a footnote to its script. The file <code>scripts/run_all.R</code> runs the whole series or any of its stages, and any single script can run again when only one input changes. The tables and the 100 m maps can be retrieved from the Downloads page of this site.</p>
-<div class="cell">
-<div id="tbl-scripts" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<p>This report describes how we estimated those three quantities and valued the result, why we took each decision along the way and what the estimates show. The calculations are carried out by a series of scripts in the folder <a href="https://github.com/renatovargas/jrc-pollination/tree/main/scripts" class="uri">https://github.com/renatovargas/jrc-pollination/tree/main/scripts</a>, listed in <a href="#tbl-scripts" class="quarto-xref">Table&nbsp;1</a> in the order in which they run. Each step of the Methods section points to the entry of its script in Annex I, which explains what the script does and links to its code. The file <a href="#script-run-all">run_all.R</a> runs the whole series or any of its stages, and any single script can run again when only one input changes. The tables and the 100 m maps can be retrieved from the Downloads page of this site.</p>
+<div id="tbl-scripts" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-scripts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Scripts of the pipeline, in the order in which they run.
+Table&nbsp;1: Scripts of the pipeline, in the order in which they run. Each name links to its entry in Annex I.
 </figcaption>
 <div aria-describedby="tbl-scripts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<div class="tabwid"><style>.cl-d8bad469{}.cl-e3f94e90{font-family:'DejaVu Sans';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6477613b{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-25c40349{width:2.234in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09091444{width:4.096in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea167652{width:2.234in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-866ca23b{width:4.096in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d57e5ad2{width:2.234in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b2dc12f4{width:4.096in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-d8bad469"><thead><tr style="overflow-wrap:break-word;"><th class="cl-25c40349"><p class="cl-6477613b"><span class="cl-e3f94e90">Script</span></p></th><th class="cl-09091444"><p class="cl-6477613b"><span class="cl-e3f94e90">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">01_prepare_nuts.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Regional boundaries and a 1 km grid of regions</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">02_download_clc.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Land cover at 100 m</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">03_prepare_catalogue.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Insect activity index and bumblebee model at 1 km</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">04_prepare_capri.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Crop area and yield at 1 km</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">05_prepare_roads.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Major roads at 100 m</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">06_prepare_distance.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Distance to semi-natural areas at 100 m</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">07_run_expert_model.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Expert-based model at 100 m and its reduction to 1 km</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">08_download_eurostat.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Crop production, production value and prices</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">09_write_manifest.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">List of heavy inputs, and 100 m clips of Luxembourg</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">10_prepare_zone_tables.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Rasters added up by region</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">11_build_physical_accounts.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Potential by region, demand, actual flow and unmet demand</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">12_build_monetary_accounts.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Value of the flow and of unmet demand</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">13_write_maps_1km.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Maps at 1 km and supply by ecosystem type</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea167652"><p class="cl-6477613b"><span class="cl-e3f94e90">14_write_maps_100m.R</span></p></td><td class="cl-866ca23b"><p class="cl-6477613b"><span class="cl-e3f94e90">Maps at 100 m</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d57e5ad2"><p class="cl-6477613b"><span class="cl-e3f94e90">15_check_maps_100m.R</span></p></td><td class="cl-b2dc12f4"><p class="cl-6477613b"><span class="cl-e3f94e90">Comparison of the 100 m maps with the 1 km maps</span></p></td></tr></tbody></table></div>
-</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Script</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-01">01_prepare_nuts.R</a></td>
+<td style="text-align: left;">Regional boundaries and a 1 km grid of regions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-02">02_download_clc.R</a></td>
+<td style="text-align: left;">Land cover at 100 m</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-03">03_prepare_catalogue.R</a></td>
+<td style="text-align: left;">Insect activity index and bumblebee model at 1 km</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-04">04_prepare_capri.R</a></td>
+<td style="text-align: left;">Crop area and yield at 1 km</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-05">05_prepare_roads.R</a></td>
+<td style="text-align: left;">Major roads at 100 m</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-06">06_prepare_distance.R</a></td>
+<td style="text-align: left;">Distance to semi-natural areas at 100 m</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-07">07_run_expert_model.R</a></td>
+<td style="text-align: left;">Expert-based model at 100 m and its reduction to 1 km</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-07b">07b_compare_routes.R</a></td>
+<td style="text-align: left;">Comparison of the rebuilt and catalogue routes, run by hand</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-08">08_download_eurostat.R</a></td>
+<td style="text-align: left;">Crop production, production value and prices</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-09">09_write_manifest.R</a></td>
+<td style="text-align: left;">List of heavy inputs, and 100 m clips of Luxembourg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-10">10_prepare_zone_tables.R</a></td>
+<td style="text-align: left;">Rasters added up by region</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-11">11_build_physical_accounts.R</a></td>
+<td style="text-align: left;">Potential by region, demand, actual flow and unmet demand</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-12">12_build_monetary_accounts.R</a></td>
+<td style="text-align: left;">Value of the flow and of unmet demand</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-13">13_write_maps_1km.R</a></td>
+<td style="text-align: left;">Maps at 1 km and supply by ecosystem type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#script-14">14_write_maps_100m.R</a></td>
+<td style="text-align: left;">Maps at 100 m</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#script-15">15_check_maps_100m.R</a></td>
+<td style="text-align: left;">Comparison of the 100 m maps with the 1 km maps</td>
+</tr>
+</tbody>
+</table>
 </div>
 </figure>
-</div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -341,15 +434,15 @@ Table&nbsp;1: Scripts of the pipeline, in the order in which they run.
 </section>
 <section id="territory-and-reporting-regions" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="territory-and-reporting-regions"><span class="header-section-number">2.2</span> Territory and reporting regions</h2>
-<p>We used the NUTS 2024 boundaries <span class="citation" data-cites="gisco2024">(<a href="#ref-gisco2024" role="doc-biblioref">Eurostat, 2024</a>)</span>, the European classification of territorial units, to report on 27 countries (NUTS0), 239 NUTS2 regions and 1160 NUTS3 regions. Each 1 km cell was assigned to the NUTS3 region at its centre, and coastal and border cells whose centre falls outside every region took the nearest region within 2 km, so that crop area on the coast is not lost.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> All tables are built by adding up the NUTS3 regions, so the three levels match exactly. The Canary Islands, the Azores, Madeira and the overseas regions fall outside the climate data and are left out. The resulting grid holds 412.4 million hectares of land, of which 152.1 million are agricultural in the land cover of 2018.</p>
+<p>We used the NUTS 2024 boundaries <span class="citation" data-cites="gisco2024">(<a href="#ref-gisco2024" role="doc-biblioref">Eurostat, 2024</a>)</span> (© EuroGeographics for the administrative boundaries), the European classification of territorial units, to report on 27 countries (NUTS0), 239 NUTS2 regions and 1160 NUTS3 regions. Each 1 km cell was assigned to the NUTS3 region at its centre, and coastal and border cells whose centre falls outside every region took the most common region among the cells up to 2 km away, so that crop area on the coast is not lost (see <a href="#script-01">01_prepare_nuts.R in Annex I</a>). All tables are built by adding up the NUTS3 regions, so the three levels match exactly. The Canary Islands, the Azores, Madeira and the overseas regions fall outside the climate data and are left out. The resulting grid holds 412.4 million hectares of land, of which 152.1 million are agricultural in the land cover of 2018.</p>
 </section>
 <section id="the-expert-based-model" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="the-expert-based-model"><span class="header-section-number">2.3</span> The expert-based model</h2>
-<p>The expert-based model scores each 100 m cell from 0 to 1 for its capacity to support wild solitary bees, in the five steps below.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The expert-based model scores each 100 m cell from 0 to 1 for its capacity to support wild solitary bees, in the five steps below (see <a href="#script-07">07_run_expert_model.R in Annex I</a>, and <a href="#script-helpers">helpers_pollination.R in Annex I</a> for the equations).</p>
 <section id="land-cover" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="land-cover"><span class="header-section-number">2.3.1</span> Land cover</h3>
-<p>The Corine accounting layers are the versions of the Corine Land Cover maps that the European Environment Agency prepares for comparison over time, and they are the land cover data that the method prescribes. The public catalogue that accompanies the k.LAB project <span class="citation" data-cites="klab2026">(<a href="#ref-klab2026" role="doc-biblioref">Integrated Modelling Partnership, 2026</a>)</span> holds version 20 for the years up to 2018, whereas the Agency published version 21 for all five years in September 2026 and marked version 20 as superseded <span class="citation" data-cites="eea2026clc">(<a href="#ref-eea2026clc" role="doc-biblioref">European Environment Agency, 2026</a>)</span>. We therefore considered two routes.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>Using the harmonised catalogue layer is the shorter route, and it offers a ready-made distance map. Rebuilding from primary sources means downloading version 21 and recomputing the distance maps, and it gives one consistent product across the series, including 2024. We ran the model on both routes for 2000 and 2018 and compared them at 1 km with the same climate, road and bumblebee layers (<a href="#tbl-routes" class="quarto-xref">Table&nbsp;2</a>). The two agree closely on the mean and on the area served, although a few cells change substantially. Since only the rebuilt route reaches 2024, a decision was made to use it as the baseline for all years. The comparison was run once, so the pipeline does not repeat it, and -routes keeps its result.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>The Corine accounting layers are the versions of the Corine Land Cover maps that the European Environment Agency prepares for comparison over time, and they are the land cover data that the method prescribes. The public catalogue that accompanies the k.LAB project <span class="citation" data-cites="klab2026">(<a href="#ref-klab2026" role="doc-biblioref">Integrated Modelling Partnership, 2026</a>)</span> holds version 20 for the years up to 2018, whereas the Agency published version 21 for all five years in September 2026 and marked version 20 as superseded <span class="citation" data-cites="eea2026clc">(<a href="#ref-eea2026clc" role="doc-biblioref">European Environment Agency, 2026</a>)</span>. We therefore considered two routes (see <a href="#script-02">02_download_clc.R in Annex I</a> and <a href="#script-03">03_prepare_catalogue.R in Annex I</a>).</p>
+<p>Using the harmonised catalogue layer is the shorter route, and it offers a ready-made distance map. Rebuilding from primary sources means downloading version 21 and recomputing the distance maps, and it gives one consistent product across the series, including 2024. We ran the model on both routes for 2000 and 2018 and compared them at 1 km with the same climate, road and bumblebee layers (<a href="#tbl-routes" class="quarto-xref">Table&nbsp;2</a>). The two agree closely on the mean and on the area served, although a few cells change substantially. Since only the rebuilt route reaches 2024, a decision was made to use it as the baseline for all years. The comparison was run once, so the pipeline does not repeat it, and <a href="#tbl-routes" class="quarto-xref">Table&nbsp;2</a> keeps its result (see <a href="#script-07b">07b_compare_routes.R in Annex I</a>). The catalogue route remains available in <a href="#script-07">07_run_expert_model.R in Annex I</a>, and it needs the catalogue layers that <a href="#script-03">03_prepare_catalogue.R in Annex I</a> retrieves.</p>
 <div class="cell">
 <div id="tbl-routes" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -372,7 +465,7 @@ S = \frac{F + N}{2}
 </section>
 <section id="major-roads" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="major-roads"><span class="header-section-number">2.3.2</span> Major roads</h3>
-<p>Major roads cannot provide food or nesting sites, so cells on a major road score zero. The method names a commercial road network, TeleAtlas, which is proprietary. A decision was made to use OpenStreetMap <span class="citation" data-cites="osm2026">(<a href="#ref-osm2026" role="doc-biblioref">OpenStreetMap contributors, 2026</a>)</span> instead, taking motorways, trunk roads and primary roads with their links, which correspond to the same categories, and rasterising them on the 100 m grid.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> As in the method, the road map is a single snapshot that applies to all years.</p>
+<p>Major roads cannot provide food or nesting sites, so cells on a major road score zero. The method names a commercial road network, TeleAtlas, which is proprietary. A decision was made to use OpenStreetMap <span class="citation" data-cites="osm2026">(<a href="#ref-osm2026" role="doc-biblioref">OpenStreetMap contributors, 2026</a>)</span> instead, taking motorways, trunk roads and primary roads with their links, which correspond to the same categories, and rasterising them on the 100 m grid (see <a href="#script-05">05_prepare_roads.R in Annex I</a>). As in the method, the road map is a single snapshot that applies to all years.</p>
 </section>
 <section id="forest-edges" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="forest-edges"><span class="header-section-number">2.3.3</span> Forest edges</h3>
@@ -384,7 +477,7 @@ S = \frac{F + N}{2}
 <p><span id="eq-decay"><span class="math display">\[
 S_d = \exp\left(\ln(S) - 0.00046\, d\right) = S\, e^{-0.00046\, d}
 \tag{2}\]</span></span></p>
-<p>The score is zero beyond 20 km. Semi-natural areas are the classes 311, 312, 313, 321, 322, 323, 324, 331 and 333. We computed the Euclidean distance between cell centres for each of the five land cover maps.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>The score is zero beyond 20 km. Semi-natural areas are the classes 311, 312, 313, 321, 322, 323, 324, 331 and 333. We computed the Euclidean distance between cell centres for each of the five land cover maps (see <a href="#script-06">06_prepare_distance.R in Annex I</a>).</p>
 </section>
 <section id="activity-of-insects" class="level3" data-number="2.3.5">
 <h3 data-number="2.3.5" class="anchored" data-anchor-id="activity-of-insects"><span class="header-section-number">2.3.5</span> Activity of insects</h3>
@@ -392,17 +485,17 @@ S_d = \exp\left(\ln(S) - 0.00046\, d\right) = S\, e^{-0.00046\, d}
 <p><span id="eq-activity"><span class="math display">\[
 A = -39.3 + 4.01\, T_b, \qquad T_b = -0.62 + 1.027\, T + 0.006\, R
 \tag{3}\]</span></span></p>
-<p>The method names the Agri4Cast climate grid, whose access requires a sign-in that was not available. A decision was made to use instead the ERA5 temperature <span class="citation" data-cites="hersbach2023">(<a href="#ref-hersbach2023" role="doc-biblioref">Hersbach et al., 2023</a>)</span> and the Copernicus radiation <span class="citation" data-cites="c3s2020">(<a href="#ref-c3s2020" role="doc-biblioref">Copernicus Climate Change Service, 2020</a>)</span> of the public catalogue, which reach 2025 and whose radiation is already expressed over day length. The method text refers to minimum temperature and its table of inputs to mean temperature, and a decision was made to use mean temperature, which is the variable in <span class="citation" data-cites="zulian2013">Zulian et al. (<a href="#ref-zulian2013" role="doc-biblioref">2013</a>)</span>. For each reporting year we took the three years centred on it, with 2023 to 2025 for 2024, and computed the index for each month from April to September. Each month was limited to the range from 0 to 100, as <span class="citation" data-cites="zulian2013">Zulian et al. (<a href="#ref-zulian2013" role="doc-biblioref">2013</a>)</span> do, before averaging the six months and interpolating the result bilinearly to 1 km and then to 100 m.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>The method names the Agri4Cast climate grid, whose access requires a sign-in that was not available. A decision was made to use instead the ERA5 temperature <span class="citation" data-cites="hersbach2023">(<a href="#ref-hersbach2023" role="doc-biblioref">Hersbach et al., 2023</a>)</span> and the Copernicus radiation <span class="citation" data-cites="c3s2020">(<a href="#ref-c3s2020" role="doc-biblioref">Copernicus Climate Change Service, 2020</a>)</span> of the public catalogue, which reach 2025 and whose radiation is already expressed over day length. The method text refers to minimum temperature and its table of inputs to mean temperature, and a decision was made to use mean temperature, which is the variable in <span class="citation" data-cites="zulian2013">Zulian et al. (<a href="#ref-zulian2013" role="doc-biblioref">2013</a>)</span>. For each reporting year we took the three years centred on it, with 2023 to 2025 for 2024, and computed the index for each month from April to September. Each month was limited to the range from 0 to 100, as <span class="citation" data-cites="zulian2013">Zulian et al. (<a href="#ref-zulian2013" role="doc-biblioref">2013</a>)</span> do, before averaging the six months and interpolating the result bilinearly to 1 km and then to 100 m (see <a href="#script-03">03_prepare_catalogue.R in Annex I</a>).</p>
 <p>The expert-based model <span class="math inline">\(E\)</span> is the product of the decayed score and the index.</p>
 <p><span id="eq-expert"><span class="math display">\[
 E = S_d \, \frac{A}{100}
 \tag{4}\]</span></span></p>
-<p>We ran the five steps over the whole grid in tiles, for each year, and reduced the result to 1 km with the mean of the land cells of each kilometre. The reduction is what the following steps read, and the 100 m tiles remain outside the repository, listed with their source, size and checksum in a manifest.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> To let a reader inspect the 100 m chain with no download, the repository also holds the 100 m inputs of Luxembourg in 2018. Running the model on them reproduces the full run with a largest difference of 5e-05 in any kilometre inside the country.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>We ran the five steps over the whole grid in tiles, for each year, and reduced the result to 1 km with the mean of the land cells of each kilometre. The reduction is what the following steps read, and the 100 m tiles remain outside the repository. A manifest lists the heavy sources behind them, with their origin, size and checksum (see <a href="#script-09">09_write_manifest.R in Annex I</a>). To let a reader inspect the 100 m chain with no download, the repository also holds the 100 m inputs of Luxembourg in 2018. Running the model on them reproduces the full run with a largest difference of 5e-05 in any kilometre inside the country (see <a href="#script-10">10_prepare_zone_tables.R in Annex I</a>).</p>
 </section>
 </section>
 <section id="the-bumblebee-model" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="the-bumblebee-model"><span class="header-section-number">2.4</span> The bumblebee model</h2>
-<p>The second model estimates where bumblebees occur. The method fits a species distribution model to records of 47 species and projects it to each period, which requires the fitted models. These are unavailable, so a decision was made to use the published aggregated layer of <span class="citation" data-cites="polce2018">Polce et al. (<a href="#ref-polce2018" role="doc-biblioref">2018</a>)</span>, which gives the mean probability of occurrence of the 47 species at 10 km. We interpolated it bilinearly to 1 km, and land cells left without a value along the coast took the mean of their neighbours within 10 km.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Its values run from 0.04 to 0.73 on land. The layer does not change over time, so all change in potential over the series comes from land cover and climate.</p>
+<p>The second model estimates where bumblebees occur. The method fits a species distribution model to records of 47 species and projects it to each period, which requires the fitted models. These are unavailable, so a decision was made to use the published aggregated layer of <span class="citation" data-cites="polce2018">Polce et al. (<a href="#ref-polce2018" role="doc-biblioref">2018</a>)</span>, which gives the mean probability of occurrence of the 47 species at 10 km. We interpolated it bilinearly to 1 km, and land cells left without a value along the coast took the mean of their neighbours within 10 km (see <a href="#script-03">03_prepare_catalogue.R in Annex I</a>). Its values run from 0.04 to 0.73 on land. The layer does not change over time, so all change in potential over the series comes from land cover and climate.</p>
 </section>
 <section id="pollination-potential-and-the-service-providing-area" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="pollination-potential-and-the-service-providing-area"><span class="header-section-number">2.5</span> Pollination potential and the service providing area</h2>
@@ -410,11 +503,11 @@ E = S_d \, \frac{A}{100}
 <p><span id="eq-potential"><span class="math display">\[
 P = \frac{E + B}{2}
 \tag{5}\]</span></span></p>
-<p>The classes follow <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span>, namely high above 0.3, medium from 0.2 to 0.3, low from 0.1 to 0.2 and none below 0.1. Cells of medium and high potential form the service providing area, where pollinators are assumed to be present. We added up land and agricultural land in each class by NUTS3 region.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<p>The classes follow <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span>, namely high above 0.3, medium from 0.2 to 0.3, low from 0.1 to 0.2 and none below 0.1. Cells of medium and high potential form the service providing area, where pollinators are assumed to be present. We added up land and agricultural land in each class by NUTS3 region (see <a href="#script-10">10_prepare_zone_tables.R in Annex I</a>).</p>
 </section>
 <section id="demand" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="demand"><span class="header-section-number">2.6</span> Demand</h2>
-<p>Demand is the area of the ten crop groups in <a href="#tbl-dependency" class="quarto-xref">Table&nbsp;3</a>, which the method takes from the CAPRI agricultural model disaggregated to 1 km. The method had two years of these data. We used the later series of <span class="citation" data-cites="koeble2024">Koeble et al. (<a href="#ref-koeble2024" role="doc-biblioref">2024</a>)</span>, which covers 2000 to 2018 and offers the exact reporting years. The layers were read from the public catalogue, which holds the same variables for those years, and reduced to one compact stack of area and one of yield per year.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p>
+<p>Demand is the area of the ten crop groups in <a href="#tbl-dependency" class="quarto-xref">Table&nbsp;3</a>, which the method takes from the CAPRI agricultural model disaggregated to 1 km. The method had two years of these data. We used the later series of <span class="citation" data-cites="koeble2024">Koeble et al. (<a href="#ref-koeble2024" role="doc-biblioref">2024</a>)</span>, which covers 2000 to 2018 and offers the exact reporting years. The layers were read from the public catalogue, which holds the same variables for those years, and reduced to one compact stack of area and one of yield per year (see <a href="#script-04">04_prepare_capri.R in Annex I</a>). The catalogue copy was used as published, and it was not compared cell by cell with the original archives.</p>
 <div class="cell">
 <div id="tbl-dependency" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -459,7 +552,7 @@ U_{c,i} = a_{c,i}\, y_{c,i}\, k_{c}\, \delta_c \quad \text{if } i \notin \Omega
 <p>Here <span class="math inline">\(a\)</span> is the crop area, <span class="math inline">\(y\)</span> the yield and <span class="math inline">\(k\)</span> a scaling factor for the crop and country, explained below. A decision was made to measure unmet demand in tonnes by analogy with the flow, because the method defines it by area only and the monetary accounts need a physical quantity. We report the area of met and unmet demand as well.</p>
 <section id="scaling-to-national-statistics" class="level3" data-number="2.7.1">
 <h3 data-number="2.7.1" class="anchored" data-anchor-id="scaling-to-national-statistics"><span class="header-section-number">2.7.1</span> Scaling to national statistics</h3>
-<p>The method anchors the accounts in official statistics, so we compared the CAPRI production of each crop and country with the national production of Eurostat, in the three-year mean around each reporting year <span class="citation" data-cites="eurostatcrops">(<a href="#ref-eurostatcrops" role="doc-biblioref">Eurostat, 2026a</a>)</span>.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> <a href="#tbl-capri-eurostat" class="quarto-xref">Table&nbsp;5</a> shows that the two sources agree well for most crops, with two exceptions that matter. CAPRI places about twice the Eurostat production of other fruits, and about 3 times the Eurostat area of flax and hemp.</p>
+<p>The method anchors the accounts in official statistics, so we compared the CAPRI production of each crop and country with the national production of Eurostat, in the three-year mean around each reporting year <span class="citation" data-cites="eurostatcrops">(<a href="#ref-eurostatcrops" role="doc-biblioref">Eurostat, 2026a</a>)</span> (see <a href="#script-08">08_download_eurostat.R in Annex I</a>). <a href="#tbl-capri-eurostat" class="quarto-xref">Table&nbsp;5</a> shows that the two sources agree well for most crops, with two exceptions that matter. CAPRI places about twice the Eurostat production of other fruits, and about 3 times the Eurostat area of flax and hemp.</p>
 <div class="cell">
 <div id="tbl-capri-eurostat" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -474,7 +567,7 @@ Table&nbsp;5: Crop area and production in CAPRI and Eurostat in 2018, before sca
 </figure>
 </div>
 </div>
-<p>A decision was therefore made to keep the CAPRI pattern of each crop within a country and scale its production to the Eurostat total, with the factor <span class="math inline">\(k_c = \text{Eurostat production} / \text{CAPRI production}\)</span>. Maps and tables then agree with official totals. The national pollination contribution, which is the actual flow divided by total production, is unaffected by this factor, so it remains the production-weighted share that <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span> define. Demand stays in the hectares of CAPRI, since the crop pattern on the map comes from that source. Where Eurostat has no figure for a crop and country, the CAPRI production is kept and flagged. There are 10 such cases, the largest being tomatoes in Portugal in 2000 and 2006, with about 1.2 million tonnes in 2006.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+<p>A decision was therefore made to keep the CAPRI pattern of each crop within a country and scale its production to the Eurostat total, with the factor <span class="math inline">\(k_c = \text{Eurostat production} / \text{CAPRI production}\)</span>. Maps and tables then agree with official totals. The national pollination contribution, which is the actual flow divided by total production, is unaffected by this factor, so it remains the production-weighted share that <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span> define. Demand stays in the hectares of CAPRI, since the crop pattern on the map comes from that source. Where Eurostat has no figure for a crop and country, the CAPRI production is kept and flagged. There are 10 such cases, the largest being tomatoes in Portugal in 2000 and 2006, with about 1.2 million tonnes in 2006 (see <a href="#script-11">11_build_physical_accounts.R in Annex I</a>, where these calculations are carried out).</p>
 </section>
 <section id="cases-where-the-sources-disagree-on-the-crop" class="level3" data-number="2.7.2">
 <h3 data-number="2.7.2" class="anchored" data-anchor-id="cases-where-the-sources-disagree-on-the-crop"><span class="header-section-number">2.7.2</span> Cases where the sources disagree on the crop</h3>
@@ -501,23 +594,23 @@ Table&nbsp;6: Crops and countries set aside because CAPRI and Eurostat differ by
 </section>
 <section id="monetary-valuation" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="monetary-valuation"><span class="header-section-number">2.8</span> Monetary valuation</h2>
-<p>Pollination contributes to a product that the national accounts already record, namely crops. The method therefore does not price the service separately. It takes the value of production in the economic accounts for agriculture and separates the part due to pollination, so no value is counted twice <span class="citation" data-cites="vallecillo2018">(<a href="#ref-vallecillo2018" role="doc-biblioref">Vallecillo et al., 2018</a>)</span>. We retrieved the production value at basic price in the prices of the previous year from Eurostat dataset <code>aact_eaa02</code> <span class="citation" data-cites="eurostateaa">(<a href="#ref-eurostateaa" role="doc-biblioref">Eurostat, 2026b</a>)</span>, as the mean of the three years around each reporting year, and we linked it to the crop groups through the correspondence in <a href="#tbl-dependency" class="quarto-xref">Table&nbsp;3</a>.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+<p>Pollination contributes to a product that the national accounts already record, namely crops. The method therefore does not price the service separately. It takes the value of production in the economic accounts for agriculture and separates the part due to pollination, so no value is counted twice <span class="citation" data-cites="vallecillo2018">(<a href="#ref-vallecillo2018" role="doc-biblioref">Vallecillo et al., 2018</a>)</span>. We retrieved the production value at basic price in the prices of the previous year from Eurostat dataset <code>aact_eaa02</code> <span class="citation" data-cites="eurostateaa">(<a href="#ref-eurostateaa" role="doc-biblioref">Eurostat, 2026b</a>)</span>, as the mean of the three years around each reporting year, and we linked it to the crop groups through the correspondence in <a href="#tbl-dependency" class="quarto-xref">Table&nbsp;3</a> (see <a href="#script-08">08_download_eurostat.R in Annex I</a>).</p>
 <p>The pollination contribution <span class="math inline">\(C\)</span> of a crop in a country is its actual flow over its total production <span class="math inline">\(T\)</span>, and the value of the flow is the production value <span class="math inline">\(V\)</span> times that contribution. The value of unmet demand follows in the same way.</p>
 <p><span id="eq-value"><span class="math display">\[
 C = \frac{F}{T}, \qquad V_F = V\, C, \qquad V_U = V\, \frac{U}{T}
 \tag{7}\]</span></span></p>
-<p>Values in the prices of the previous year still drift with inflation across a series of 24 years, so a decision was made to express them in constant prices of 2010, as the method does not prescribe a base for a longer series. We multiplied them by the deflator <span class="math inline">\(H_{2010} / \bar{H}_{y}\)</span>, where <span class="math inline">\(H\)</span> is the harmonised index of consumer prices of the European Union <span class="citation" data-cites="eurostathicp">(<a href="#ref-eurostathicp" role="doc-biblioref">Eurostat, 2026c</a>)</span> and <span class="math inline">\(\bar{H}_{y}\)</span> is its mean over the three years that the prices of each reporting year refer to. The deflator runs from 1.27 for 2000 to 0.74 for 2024.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<p>Values in the prices of the previous year still drift with inflation across a series of 24 years, so a decision was made to express them in constant prices of 2010, as the method does not prescribe a base for a longer series. We multiplied them by the deflator <span class="math inline">\(H_{2010} / \bar{H}_{y}\)</span>, where <span class="math inline">\(H\)</span> is the harmonised index of consumer prices of the European Union <span class="citation" data-cites="eurostathicp">(<a href="#ref-eurostathicp" role="doc-biblioref">Eurostat, 2026c</a>)</span> and <span class="math inline">\(\bar{H}_{y}\)</span> is its mean over the three years that the prices of each reporting year refer to. The deflator runs from 1.27 for 2000 to 0.74 for 2024 (see <a href="#script-12">12_build_monetary_accounts.R in Annex I</a>, where these calculations are carried out).</p>
 <p>The two sources do not match perfectly. A production value in a country with no physical production has no contribution and receives no value, which leaves out 2,555 million euro across all years and countries. A country that reports production of a crop but no value for it has flow with no monetary counterpart, which concerns 0.2 percent of the physical flow. Regions receive the national value of each crop in proportion to their physical flow and unmet demand, through a value per tonne that is uniform within a crop and country.</p>
 </section>
 <section id="maps" class="level2" data-number="2.9">
 <h2 data-number="2.9" class="anchored" data-anchor-id="maps"><span class="header-section-number">2.9</span> Maps</h2>
-<p>We wrote the maps of potential, demand, actual flow, unmet demand and value at 1 km from the rasters and the factors and prices of the tables, and then read their totals back from disk to compare them with the tables.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> The 1 km maps are a working product, kept outside the repository, from which the published 100 m maps are built.</p>
-<p>The 100 m maps add spatial detail in two ways.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> Potential is computed directly as the mean of the 100 m expert-based model and the bumblebee model interpolated to 100 m. The other quantities exist only at 1 km, so they are allocated within each kilometre, and each kilometre keeps its total. Demand, unmet demand and the flow and value on agroecosystems go to agricultural cells, and the flow for all ecosystem types goes to all land cells in proportion to their expert-based suitability. A kilometre with no positive weight spreads its value evenly over its land cells. The detail within each kilometre therefore comes from land cover, and crops are not observed at that scale. To make the files several times smaller, values are stored as whole numbers in small units, namely potential multiplied by 10 000, demand in square metres, flow and unmet demand in kilograms, and value in euro.</p>
-<p>To describe which ecosystems support the flow, we shared the flow of each kilometre among ecosystem types in proportion to their share of its expert-based suitability, and we attributed to cropland the small amount of flow in cells with no support.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></p>
+<p>We wrote the maps of potential, demand, actual flow, unmet demand and value at 1 km from the rasters and the factors and prices of the tables, and then read their totals back from disk to compare them with the tables (see <a href="#script-13">13_write_maps_1km.R in Annex I</a>). The 1 km maps are a working product, kept outside the repository, from which the published 100 m maps are built.</p>
+<p>The 100 m maps add spatial detail in two ways (see <a href="#script-14">14_write_maps_100m.R in Annex I</a>). Potential is computed directly as the mean of the 100 m expert-based model and the bumblebee model interpolated to 100 m. The other quantities exist only at 1 km, so they are allocated within each kilometre, and each kilometre keeps its total. Demand, unmet demand and the flow and value on agroecosystems go to agricultural cells, and the flow for all ecosystem types goes to all land cells in proportion to their expert-based suitability. A kilometre with no positive weight spreads its value evenly over its land cells. The detail within each kilometre therefore comes from land cover, and crops are not observed at that scale. To make the files several times smaller, values are stored as whole numbers in small units, namely potential multiplied by 10 000, demand in square metres, flow and unmet demand in kilograms, and value in euro.</p>
+<p>To describe which ecosystems support the flow, we shared the flow of each kilometre among ecosystem types in proportion to their share of its expert-based suitability, and we attributed to cropland the small amount of flow in cells with no support (see <a href="#script-13">13_write_maps_1km.R in Annex I</a>).</p>
 </section>
 <section id="checks" class="level2" data-number="2.10">
 <h2 data-number="2.10" class="anchored" data-anchor-id="checks"><span class="header-section-number">2.10</span> Checks</h2>
-<p>The scripts stop if any check on the tables or on the 1 km maps fails. <a href="#tbl-checks" class="quarto-xref">Table&nbsp;7</a> records the largest relative gap of each check on the tables. The value of the flow in any crop and country also never exceeds the production value times the dependency ratio.</p>
+<p>The scripts stop if any check on the tables or on the maps fails. <a href="#tbl-checks" class="quarto-xref">Table&nbsp;7</a> records the largest relative gap of each check on the tables. The value of the flow in any crop and country also never exceeds the production value times the dependency ratio.</p>
 <div class="cell">
 <div id="tbl-checks" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -532,7 +625,7 @@ Table&nbsp;7: Consistency checks of the tables, with the largest relative gap an
 </figure>
 </div>
 </div>
-<p>The maps agree with the tables once the estimates, which the maps leave out, are set aside. In 2024 the flow maps add up to 14.18 million tonnes, against 14.18 million tonnes in the tables without estimates and 14.36 million tonnes with them. We also read the 100 m maps back from disk and compared them with the 1 km maps for all five years.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> No kilometre differs by more than the 50 units that rounding allows, and the totals of demand, flow, unmet demand and value stay within 0.03 percent of the 1 km totals.</p>
+<p>The maps agree with the tables once the estimates, which the maps leave out, are set aside. In 2024 the flow maps add up to 14.18 million tonnes, against 14.18 million tonnes in the tables without estimates and 14.36 million tonnes with them. We also read the 100 m maps back from disk and compared them with the 1 km maps for all five years (see <a href="#script-15">15_check_maps_100m.R in Annex I</a>). No kilometre differs by more than the 50 units that rounding allows, and the totals of demand, flow, unmet demand and value stay within 0.03 percent of the 1 km totals.</p>
 <p>Potential differs by at most 0.053 on the scale from 0 to 1 in any kilometre, which comes from interpolating the bumblebee model to 100 m rather than to 1 km. The mean of the map of potential on agricultural land is about 5 percent below that of its 1 km map because the two averages weigh cells differently. The 100 m mean counts each agricultural cell, and the 1 km mean counts each kilometre once however little agricultural land it holds.</p>
 </section>
 </section>
@@ -796,36 +889,106 @@ Vallecillo, S., La Notte, A., Polce, C., Zulian, G., Alexandris, N., Ferrini, S.
 Zulian, G., Maes, J., &amp; Paracchini, M. L. (2013). Linking land cover data and crop yields for mapping and assessment of pollination services in <span>Europe</span>. <em>Land</em>, <em>2</em>(3), 472–492. <a href="https://doi.org/10.3390/land2030472">https://doi.org/10.3390/land2030472</a>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="annex-i.-scripts-of-the-pipeline" class="level1 unnumbered">
+<h1 class="unnumbered">Annex I. Scripts of the pipeline</h1>
+<p>This annex describes each script in the order in which it runs. The link under each name opens its code on GitHub, and the paragraph explains what the script takes in, what it does and what it saves for the steps that follow. Scripts 01 to 09 prepare the inputs. Script 01 runs from the repository alone, scripts 02, 03, 04, 05 and 08 need internet access, and scripts 06, 07 and 09 need source files that are kept outside the repository. Script 07b is a comparison that runs only by hand, and it also needs files kept outside the repository. Scripts 10 to 13 run from the repository alone. Scripts 14 and 15 write and check the 100 m maps, and they need large files kept outside the repository again.</p>
+<section id="script-01" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-01">01_prepare_nuts.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/01_prepare_nuts.R">View on GitHub</a></p>
+<p>This script takes the NUTS 2024 boundaries of Eurostat at a scale of 1:1 million <span class="citation" data-cites="gisco2024">(<a href="#ref-gisco2024" role="doc-biblioref">Eurostat, 2024</a>)</span>, in the copy distributed with the INCA plugin <span class="citation" data-cites="inca2026">(<a href="#ref-inca2026" role="doc-biblioref">European Commission, Joint Research Centre and VITO, 2026</a>)</span>, which the repository holds with its copyright notice, and keeps the 27 Member States. It gives each cell of a 1 km grid the NUTS3 region at its centre, and a cell whose centre falls outside every region takes the most common region among the cells up to 2 km away, so that crop area on the coast is not lost. It saves <code>nuts3_id_1km.tif</code>, which the later scripts use to add up cells by region, <code>nuts0_eu27.gpkg</code>, which they use as the outline of the EU27, and <code>nuts_regions.csv</code>, which lists the codes and names at the levels NUTS0, NUTS2 and NUTS3.</p>
+</section>
+<section id="script-02" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-02">02_download_clc.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/02_download_clc.R">View on GitHub</a></p>
+<p>This script downloads the Corine Land Cover accounting layers, version 21, at 100 m for the five reporting years <span class="citation" data-cites="eea2026clc">(<a href="#ref-eea2026clc" role="doc-biblioref">European Environment Agency, 2026</a>)</span>. It finds the download address on the record page of each year, retrieves the zip file and unpacks the raster, and it skips any year that is already unpacked. The zip files and rasters take about 2.3 GB, so they stay outside the repository, where scripts 06, 07, 09 and 14 read them.</p>
+</section>
+<section id="script-03" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-03">03_prepare_catalogue.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/03_prepare_catalogue.R">View on GitHub</a></p>
+<p>This script reads its layers from the public catalogue of the k.LAB project <span class="citation" data-cites="klab2026">(<a href="#ref-klab2026" role="doc-biblioref">Integrated Modelling Partnership, 2026</a>)</span>. For each reporting year it takes the ERA5 air temperature <span class="citation" data-cites="hersbach2023">(<a href="#ref-hersbach2023" role="doc-biblioref">Hersbach et al., 2023</a>)</span> and the Copernicus solar radiation <span class="citation" data-cites="c3s2020">(<a href="#ref-c3s2020" role="doc-biblioref">Copernicus Climate Change Service, 2020</a>)</span> of the three years centred on it, with 2023 to 2025 for 2024. It computes the activity index of insects <span class="citation" data-cites="corbet1993 zulian2013">(<a href="#ref-corbet1993" role="doc-biblioref">Corbet et al., 1993</a>; <a href="#ref-zulian2013" role="doc-biblioref">Zulian et al., 2013</a>)</span> for each month from April to September, limits each month to the range from 0 to 100, averages the six months and interpolates the result to the 1 km grid. It saves one file per year, <code>activity_index_&lt;year&gt;_1km.tif</code>, for script 07 and later scripts, and the five files take about 23 MB. The script then interpolates the bumblebee layer of <span class="citation" data-cites="polce2018">Polce et al. (<a href="#ref-polce2018" role="doc-biblioref">2018</a>)</span> from 10 km to 1 km and fills land cells along the coast with the mean of their neighbours, in two passes that each reach up to 10 km. The result is <code>bumblebee_sdm_1km.tif</code>, a file of about 9 MB that every script computing potential reads. Only when the comparison of input routes is to be repeated, the script also fetches the catalogue land cover and distance layers of version 20 for 2000 and 2018, which take about 1.4 GB and stay outside the repository.</p>
+</section>
+<section id="script-04" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-04">04_prepare_capri.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/04_prepare_capri.R">View on GitHub</a></p>
+<p>This script reads the crop area and yield of the ten crop groups from the disaggregated CAPRI series of <span class="citation" data-cites="koeble2024">Koeble et al. (<a href="#ref-koeble2024" role="doc-biblioref">2024</a>)</span>, through the public catalogue <span class="citation" data-cites="klab2026">(<a href="#ref-klab2026" role="doc-biblioref">Integrated Modelling Partnership, 2026</a>)</span>, which holds the same variables for the reporting years. For 2000, 2006, 2012 and 2018, it aligns each layer with the 1 km grid, rounds it to three decimals and stacks the crops. It saves <code>capri_area_ha_&lt;year&gt;.tif</code> and <code>capri_yield_kgha_&lt;year&gt;.tif</code>, eight files of about 124 MB in total, for scripts 10 and 13. Spatial crop data end in 2018, so a decision was made to use the stacks of 2018 to represent 2024. Changes between 2018 and 2024 in demand, flow and unmet demand therefore reflect pollination potential and national statistics, and they do not reflect crop relocation.</p>
+</section>
+<section id="script-05" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-05">05_prepare_roads.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/05_prepare_roads.R">View on GitHub</a></p>
+<p>This script downloads the main roads of OpenStreetMap <span class="citation" data-cites="osm2026">(<a href="#ref-osm2026" role="doc-biblioref">OpenStreetMap contributors, 2026</a>)</span> from the geoserver of the k.LAB project <span class="citation" data-cites="klab2026">(<a href="#ref-klab2026" role="doc-biblioref">Integrated Modelling Partnership, 2026</a>)</span>, in pages of 100,000 roads, and it keeps the pages already downloaded so that an interrupted run can resume. It keeps motorways, trunk roads and primary roads with their links, projects them to EPSG:3035 and marks the 100 m cells that a road touches. It saves the roads as a vector file of about 800 MB and the marked cells as <code>osm_major_roads_100m.tif</code>, a file of about 8.5 MB. Both stay outside the repository, and scripts 07 and 09 read the raster. The road map is one snapshot that applies to all years.</p>
+</section>
+<section id="script-06" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-06">06_prepare_distance.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/06_prepare_distance.R">View on GitHub</a></p>
+<p>This script takes the Corine layers of script 02 and the semi-natural classes 311, 312, 313, 321, 322, 323, 324, 331 and 333 <span class="citation" data-cites="garibaldi2011">(<a href="#ref-garibaldi2011" role="doc-biblioref">Garibaldi et al., 2011</a>)</span>. For each reporting year, it computes the distance in metres between the centre of each 100 m cell and the nearest semi-natural cell, up to 20 km, and it leaves cells farther away without a value. It saves <code>dist_seminatural_100m_&lt;year&gt;.tif</code>, one file per year of about 280 MB, or 1.4 GB in total. These files stay outside the repository for scripts 07 and 09. The script needs GDAL 3.11 or later.</p>
+</section>
+<section id="script-07" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-07">07_run_expert_model.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/07_run_expert_model.R">View on GitHub</a></p>
+<p>This script takes the Corine layers of script 02, the activity index of script 03, the roads of script 05, the distances of script 06, the outline of the EU27 from script 01 and the land cover scores of <span class="citation" data-cites="zulian2013">Zulian et al. (<a href="#ref-zulian2013" role="doc-biblioref">2013</a>)</span>. It works by reporting year, in tiles of 500 km that touch the EU27. Each 100 m cell receives the mean of its floral and nesting scores, and cells on a major road or inside a forest then score zero. The script applies the decay with distance to semi-natural areas <span class="citation" data-cites="ricketts2008 vallecillo2018">(<a href="#ref-ricketts2008" role="doc-biblioref">Ricketts et al., 2008</a>; <a href="#ref-vallecillo2018" role="doc-biblioref">Vallecillo et al., 2018</a>)</span>, with a score of zero beyond 20 km, and multiplies the result by the activity index interpolated to 100 m. The 100 m tiles take about 4.7 GB and stay outside the repository for script 14. Each tile is also reduced to 1 km, as the mean over land cells, the mean over agricultural cells, the number of each kind of cell and the sum of the model by ecosystem type. The script saves these reductions as <code>ebm_rebuilt_&lt;year&gt;_1km.tif</code> and <code>ebm_supply_rebuilt_&lt;year&gt;_1km.tif</code>, of about 18 and 21 MB per year, stored as whole numbers to save space, for scripts 10 and 13. An interrupted run resumes at the next tile. The same script can run on the catalogue route for 2000 and 2018, and it then saves its reductions outside the repository for script 07b.</p>
+</section>
+<section id="script-07b" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-07b">07b_compare_routes.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/07b_compare_routes.R">View on GitHub</a></p>
+<p>This script compares pollination potential at 1 km from the two routes of script 07, in 2000 and 2018, which are the first and last years that both routes hold. It uses the same bumblebee layer on both sides, so any difference comes from the land cover and distance layers. For each year, it records the correlation, the two means, the largest difference in any kilometre, the area of the kilometres in the service providing area on each route and the share of kilometres whose class of potential changes. It saves <code>route_comparison.rds</code> for this report. The catalogue reductions stay outside the repository and no result depends on the comparison, so the script stays out of <a href="#script-run-all">run_all.R</a>.</p>
+</section>
+<section id="script-08" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-08">08_download_eurostat.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/08_download_eurostat.R">View on GitHub</a></p>
+<p>This script downloads three tables through the Eurostat data service. From <code>apro_cpsh1</code> <span class="citation" data-cites="eurostatcrops">(<a href="#ref-eurostatcrops" role="doc-biblioref">Eurostat, 2026a</a>)</span> it takes the production and area of the crops, joins the separate and combined reports of peaches and nectarines, and adds the crops up to the ten crop groups. Other fruits takes the larger of the total of fruits minus the named fruits and the sum of its parts, because the total has gaps in some years. From <code>aact_eaa02</code> <span class="citation" data-cites="eurostateaa">(<a href="#ref-eurostateaa" role="doc-biblioref">Eurostat, 2026b</a>)</span> it takes the production value at basic price, in million euro, and links the items to the crop groups. Each reporting year of these two tables is the mean of the three years centred on it. The third table is <code>prc_hicp_aind</code> <span class="citation" data-cites="eurostathicp">(<a href="#ref-eurostathicp" role="doc-biblioref">Eurostat, 2026c</a>)</span>, the annual price index of the EU27 with 2015 as its base. The script saves <code>production_crop.rds</code> for script 11, and <code>eaa_value_crop.rds</code> and <code>hicp_eu27.rds</code> for script 12. A new Eurostat release can change the results, and these saved files keep the figures used here.</p>
+</section>
+<section id="script-09" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-09">09_write_manifest.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/09_write_manifest.R">View on GitHub</a></p>
+<p>This script looks through the heavy files kept outside the repository, namely the Corine zip files, the catalogue layers, the roads and the distance maps. It saves their source, size and checksum in <code>manifest_heavy_inputs.csv</code>, so that a reader can see what the work rests on. It then clips the Corine and distance layers of 2018 and the road layer to Luxembourg, with a margin of 1 km, and saves them in <code>data/inputs/pilot_lu/</code>. Script 10 uses these clips to run the 100 m model with no download.</p>
+</section>
+<section id="script-10" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-10">10_prepare_zone_tables.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/10_prepare_zone_tables.R">View on GitHub</a></p>
+<p>This script takes the 1 km products of scripts 01, 03, 04 and 07 and adds up the rasters by NUTS3 region. A kilometre belongs to the service providing area when its potential is at least 0.2. For each year, the script adds up the crop area and production of each crop inside and outside that area, leaving out Croatia, Malta and Cyprus, and saves <code>capri_by_zone.rds</code>. It also adds up land and agricultural land by class of potential, for all countries, and saves <code>farmland_by_zone.rds</code>. Script 11 reads both files. The script then runs the 100 m model on the clips of Luxembourg for 2018 and saves its largest difference from the full run as <code>pilot_luxembourg.rds</code>. Finally, it saves small tables for this report on the territory, the mean and range of the layers, the kilometres with more than 100 hectares of demand, demand by class of potential and the crop area in the three countries left out. Each run recomputes everything. The tables of 2024 use the crop area and yield of 2018.</p>
+</section>
+<section id="script-11" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-11">11_build_physical_accounts.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/11_build_physical_accounts.R">View on GitHub</a></p>
+<p>This script takes the tables of script 10, the national production of script 08 and the dependency ratios of <span class="citation" data-cites="klein2007">Klein et al. (<a href="#ref-klein2007" role="doc-biblioref">2007</a>)</span>. It scales the CAPRI production of each crop and country to Eurostat, and it sets aside the cases whose scaling factor is above 10 or below 0.1. Production with no place on the map, which includes Croatia, Malta and Cyprus, takes an estimate from the agricultural land of each region. The script then computes demand, actual flow and unmet demand by NUTS3 region and adds them up to the levels NUTS2 and NUTS0. It stops if the levels do not add up, if flow and unmet demand do not add up to dependent production or if national production does not match Eurostat. It saves <code>pollination_accounts_nuts3_crop_year</code> for scripts 12 and 13, <code>pollination_contribution_country_crop_year</code> for script 12 and <code>pollination_eurostat_factors</code> for script 13, with other result tables, each as rds and xlsx. It also writes the workbook of the Downloads page, <code>pollination_physical_results.xlsx</code>, and the small tables of the physical results, which include the comparison with the published contributions of <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span>.</p>
+</section>
+<section id="script-12" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-12">12_build_monetary_accounts.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/12_build_monetary_accounts.R">View on GitHub</a></p>
+<p>This script takes the accounts of script 11 and the production value and price index of script 08. For each crop and country, it multiplies the production value by the pollination contribution to obtain the value of the flow, and by the share of unmet demand in production to obtain the value of unmet demand. It converts both to constant 2010 prices with the price index. Regions receive the national value in proportion to their physical quantities, through a value per tonne that is uniform within a crop and country. The script stops if the levels do not add up or if the value of the flow exceeds the production value times the dependency ratio. It saves <code>pollination_value_country_crop_year</code> for script 13, other result tables as rds and xlsx, and the workbook of the Downloads page, <code>pollination_monetary_results.xlsx</code>. It also saves the small tables of the monetary results, which include the comparison with the published values of <span class="citation" data-cites="vallecillo2018">Vallecillo et al. (<a href="#ref-vallecillo2018" role="doc-biblioref">2018</a>)</span>, and the figure of the value by country.</p>
+</section>
+<section id="script-13" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-13">13_write_maps_1km.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/13_write_maps_1km.R">View on GitHub</a></p>
+<p>This script takes the 1 km products of the input scripts, the scaling factors of script 11 and the value per tonne of script 12. It writes 40 maps, eight for each reporting year, of potential on all land, potential on agricultural land, the class of potential, demand, actual flow, unmet demand and the value of flow and of unmet demand. The maps take about 222 MB and stay outside the repository for scripts 14 and 15. The maps of 2024 use the crop area and yield of 2018, and they leave out the production that the tables estimate. The script draws the two map figures of this report, and it shares the flow of each kilometre among ecosystem types in proportion to their share of its expert-based suitability, which gives <code>pollination_supply_ecosystem_nuts_year</code>. It reads the totals of the maps back from disk and stops if potential leaves the range from 0 to 1 or if a total differs from the tables. It saves the record as <code>pollination_map_totals.rds</code> and <code>maps_against_tables.rds</code>.</p>
+</section>
+<section id="script-14" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-14">14_write_maps_100m.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/14_write_maps_100m.R">View on GitHub</a></p>
+<p>This script takes the 100 m tiles of script 07, the Corine layers of script 02, the bumblebee layer of script 03 and the 1 km maps of script 13. Potential is the mean of the 100 m model and the bumblebee layer interpolated to 100 m. The other quantities are allocated within each kilometre, so that each kilometre keeps its total. Demand, unmet demand and the flow and value on agroecosystems go to agricultural cells, and the flow for all ecosystem types goes to land cells in proportion to their expert-based suitability. A kilometre with no positive weight spreads its value evenly over its land cells. The script stores whole numbers in small units and picks up at the next tile if a run is interrupted. It writes 40 maps, eight for each reporting year, which take about 4.2 GB, so they stay outside the repository and are published in the external folder of the Downloads page.</p>
+</section>
+<section id="script-15" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-15">15_check_maps_100m.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/15_check_maps_100m.R">View on GitHub</a></p>
+<p>This script reads the 100 m maps of script 14 and the 1 km maps of script 13 back from disk. It compares the total of each map at the two resolutions, or the mean in the case of potential, and it adds up each 100 m map to the 1 km grid to find the largest difference in any kilometre and the number of kilometres beyond what rounding allows. Because the maps stay outside the repository, it saves the record as <code>check_maps_100m_totals.rds</code> and <code>check_maps_100m_cells.rds</code>, and this report reads it from there. It stops if a kilometre differs by more than rounding allows or if a total differs by more than one part in a thousand. Finished rows are kept, so an interrupted run resumes.</p>
+</section>
+<section id="script-run-all" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-run-all">run_all.R</h2>
+<p><a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/run_all.R">View on GitHub</a></p>
+<p>This script runs the numbered scripts in order, grouped into four stages, which are the inputs (scripts 01 to 09), the tables (10 to 12), the 1 km maps (13) and the 100 m maps (14 and 15). With no stage named it runs the tables and the 1 km maps, which need only the repository. Script 07b is not part of any stage, and a note in the file explains why.</p>
+</section>
+<section id="script-helpers" class="level2 unnumbered unlisted">
+<h2 class="unnumbered unlisted anchored" data-anchor-id="script-helpers">Helper files</h2>
+<p>View on GitHub: <a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/helpers_common.R">helpers_common.R</a>, <a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/helpers_pollination.R">helpers_pollination.R</a>, <a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/helpers_accounts.R">helpers_accounts.R</a>, <a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/helpers_results.R">helpers_results.R</a> and <a href="https://github.com/renatovargas/jrc-pollination/blob/main/scripts/helpers_report.R">helpers_report.R</a></p>
+<p>These files hold the steps that several scripts share, and they do not run on their own. The first saves tables and records the checks. The second holds the reporting years, the climate period behind each year, the rule that the crop data of 2018 stand in for 2024, the equations of the expert-based model, the classes of potential and the allocation from 1 km to 100 m. The third reads the 1 km products, adds up rasters by region, scales production to Eurostat, estimates production with no place on the map, adds up the NUTS levels and builds the 1 km maps. It also holds the run of the model on the clips of Luxembourg and the sharing of flow among ecosystem types. The fourth lays out the sheets of the workbooks, and the fifth reads the small tables and formats them for this report.</p>
 
 
 </section>
+</section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>See <code>scripts/01_prepare_nuts.R</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>See <code>scripts/07_run_expert_model.R</code>, and <code>scripts/helpers_pollination.R</code> for the equations.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>See <code>scripts/02_download_clc.R</code> and <code>scripts/03_prepare_catalogue.R</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>The route is available in <code>scripts/07_run_expert_model.R</code> with <code>routes &lt;- "catalogue"</code>, which needs the catalogue layers that <code>scripts/03_prepare_catalogue.R</code> retrieves.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>See <code>scripts/05_prepare_roads.R</code>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>See <code>scripts/06_prepare_distance.R</code>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>See <code>scripts/03_prepare_catalogue.R</code>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>See <code>scripts/09_write_manifest.R</code>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>See the function <code>run_pilot_luxembourg()</code> in <code>scripts/helpers_accounts.R</code>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>See <code>scripts/03_prepare_catalogue.R</code>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>See <code>scripts/10_prepare_zone_tables.R</code>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12"><p>See <code>scripts/04_prepare_capri.R</code>. The script <code>scripts/04b_check_capri.R</code> compares these layers with the original archives. That comparison has not been run, because the archives are very large.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13"><p>See <code>scripts/08_download_eurostat.R</code>.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14"><p>See <code>scripts/11_build_physical_accounts.R</code>, where these calculations are carried out.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15"><p>See <code>scripts/08_download_eurostat.R</code>.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16"><p>See <code>scripts/12_build_monetary_accounts.R</code>, where these calculations are carried out.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17"><p>See <code>scripts/13_write_maps_1km.R</code>.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18"><p>See <code>scripts/14_write_maps_100m.R</code>.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19"><p>See the function <code>supply_by_ecosystem()</code> in <code>scripts/helpers_accounts.R</code>.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20"><p>See <code>scripts/15_check_maps_100m.R</code>.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

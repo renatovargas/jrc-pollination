@@ -27,12 +27,12 @@ The reference method is Vallecillo et al. (2018), cited as "the report". Page nu
 
 ## Notes on results
 
-- Route comparison: run once for 2000 and 2018, and kept as a saved table. The pipeline does not repeat it. The two catalogue reductions it read are in `refs/ebm_catalogue/`, outside the repository.
+- Route comparison: run for 2000 and 2018 by `scripts/07b_compare_routes.R`, and kept as a saved table. The pipeline does not repeat it. The two catalogue reductions it reads are in `refs/ebm_catalogue/`, outside the repository.
 
 - Pome fruit value: Table 4.4 of the report shows 2 240 M EUR for the EU in 2006. The sum of apples, pears and peaches in `aact_eaa02` gives 6 620 M EUR for the EU27, close to three times that figure. The other crops are close to the report. Summing is the choice here. **Open question**, since it explains most of the difference with the published total of 3 billion euro. Inferred.
 - Other fruits, 2012: about 0.9 million ha in CAPRI and Eurostat against about 2 million in other years. Likely a data gap.
 - Flax and hemp: CAPRI area is about three times the Eurostat area.
-- 100 m cells: allocation to few agricultural cells can place more than 1 ha or implausible tonnes in one cell. Totals by kilometre are conserved within rounding, checked from disk for all maps and years with `scripts/10b_check_maps_100m.R`. Totals of demand, flow and unmet demand stay within 0.04% of the 1 km totals. Verified by reading the rasters.
+- 100 m cells: allocation to few agricultural cells can place more than 1 ha or implausible tonnes in one cell. Totals by kilometre are conserved within rounding, checked from disk for all maps and years with `scripts/15_check_maps_100m.R`. Totals of demand, flow and unmet demand stay within 0.04% of the 1 km totals. Verified by reading the rasters.
 - 100 m agricultural potential: the mean over the map is about 5% below the 1 km map, since the 100 m mean counts agricultural cells and the 1 km mean counts kilometres. The two differ by at most 0.023 in any kilometre, and weighting the 1 km map by agricultural cells reproduces the 100 m mean (0.1988 in 2000, 0.2035 in 2024). Verified by reading the rasters.
 
 ## Open items
@@ -40,4 +40,3 @@ The reference method is Vallecillo et al. (2018), cited as "the report". Page nu
 1. If the treatment of Cyprus and Malta or the forest edge scores is revisited, rerun the affected scripts.
 2. If Maxent lambdas and `MinimumTrainingThresholds.csv` become available, project the bumblebee model for each period.
 3. Partial validation of the 2024 crop assumption with IACS data for the countries where it is available.
-4. Run `scripts/04b_check_capri.R` once the Zenodo archives are complete.

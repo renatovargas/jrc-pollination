@@ -10,6 +10,9 @@
 #            Rscript scripts/run_all.R tables
 #            Rscript scripts/run_all.R inputs tables maps_1km maps_100m
 #          The report is rendered afterwards with `quarto render`.
+#
+# Script 07b stays out of the pipeline on purpose. It is a one-off comparison that needs files in refs/ which no
+# result depends on, and the report reads the small table it saved.
 
 pipeline <- list(
   inputs = c("01_prepare_nuts", "02_download_clc", "03_prepare_catalogue", "04_prepare_capri", "05_prepare_roads",

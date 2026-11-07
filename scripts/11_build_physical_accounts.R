@@ -192,13 +192,6 @@ save_report_table(
 )
 save_report_table(
   all_national |>
-    filter(!eurostat_gap) |>
-    group_by(crop) |>
-    summarise(p10 = quantile(factor, 0.1), median = median(factor), p90 = quantile(factor, 0.9), .groups = "drop"),
-  "factor_distribution"
-)
-save_report_table(
-  all_national |>
     filter(eurostat_gap) |>
     select(geo, crop, year, capri_t),
   "no_eurostat_figure"

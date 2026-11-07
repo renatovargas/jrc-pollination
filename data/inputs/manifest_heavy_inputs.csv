@@ -5,10 +5,9 @@ refs/clc_accounting/clc2012_v21.zip,https://doi.org/10.2909/d9533dc9-272b-4dac-9
 refs/clc_accounting/clc2018_v21.zip,https://doi.org/10.2909/0f878901-6c51-41ae-b54d-52e794870e9c,244.1,2080d5581f5b2e30092607c5ac3afaef
 refs/clc_accounting/clc2024_v21.zip,https://doi.org/10.2909/a65428d3-bd66-4b47-bcf9-6bfd6fa5df0c,245.8,feefcdde8431a34286db786234c298d1
 refs/catalogue/clc_2000.tif,https://stac.integratedmodelling.org/collections/jrc_data_catalog,155.7,3f7ad0c30c6ddccf129f5b6256cf3bcf
-refs/catalogue/clc_2018.tif,https://stac.integratedmodelling.org/collections/jrc_data_catalog,141.2,6eba02d622655a904b7cfd83caae17c3
+refs/catalogue/clc_2018.tif,https://stac.integratedmodelling.org/collections/jrc_data_catalog,158.3,3b42524b999893832d35d40de49f41ad
 refs/catalogue/dist_2000.tif,https://stac.integratedmodelling.org/collections/jrc_data_catalog,582.3,860e6a4ac73db54b77dfd972a47dce03
-refs/capri/fsucroparea_ha.zip,https://doi.org/10.5281/zenodo.13992301,131.2,a9373973fedd199e563e448311e5d713
-refs/capri/fsucropyield_kgperha.zip,https://doi.org/10.5281/zenodo.13992301,254.3,e500391a790895cf2ce2e5579cef05af
+refs/catalogue/dist_2018.tif,https://stac.integratedmodelling.org/collections/jrc_data_catalog,583.4,e8832ed20fde01ce849fd56b1a99b0c1
 refs/roads/osm_main_roads_3035.gpkg,"OpenStreetMap, via scripts/05_prepare_roads.R",800.2,5613b54361270dd22b0df20d1af6020e
 refs/roads/osm_major_roads_100m.tif,"OpenStreetMap, via scripts/05_prepare_roads.R",8.5,5d840e68b0afd824de16f19f0dc56cbc
 refs/distance/dist_seminatural_100m_2000.tif,Derived with scripts/06_prepare_distance.R,281.3,c4ce627140ca5aae34ef673bf6add4ff

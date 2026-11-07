@@ -1,5 +1,6 @@
 # Prepare the climate and bumblebee layers, and fetch the harmonised catalogue land cover layers.
 #
+# Why    : the activity index and the bumblebee model enter potential, and the catalogue offers both on public grids.
 # Source : Public STAC catalogue of the k.LAB implementation of this service,
 #          https://stac.integratedmodelling.org/collections/jrc_data_catalog
 #          Air temperature: ERA5 monthly means of 2 m temperature, 3-year means, 0.25 degrees, in 0.1 K.
@@ -7,7 +8,7 @@
 #          radiation, 3-year means, expressed over day length, 0.25 degrees, in 0.01 W per square metre.
 #          Bumblebees: aggregated species distribution model (Polce et al., 2018), 10 km.
 #          Land cover and distance: Corine accounting layers version 20 and the distance to semi-natural
-#          areas derived from them, 100 m, for 2000, 2006, 2012 and 2018.
+#          areas derived from them, 100 m, for 2000 and 2018.
 # Outputs: data/inputs/climate/activity_index_<year>_1km.tif  growing season activity index in percent
 #          data/inputs/sdm/bumblebee_sdm_1km.tif              probability of occurrence, 0 to 1
 #          refs/catalogue/clc_<year>.tif, refs/catalogue/dist_<year>.tif (not versioned, on request, see below)
@@ -51,8 +52,8 @@ if (!file.exists(out)) {
   writeRaster(sdm, out, overwrite = TRUE, datatype = "FLT4S", gdal = raster_options)
 }
 
-# Land cover and distance layers of the catalogue, only to repeat the comparison of input routes, whose
-# result is kept in data/outputs/report/route_comparison.rds. Set `routes` to include "catalogue" to fetch them.
+# Land cover and distance layers of the catalogue, only for the comparison of input routes in script 07b.
+# Set `routes` to include "catalogue" to fetch them.
 # The first and last years with both versions of the layers are enough to measure the effect.
 for (year in if (exists("routes") && "catalogue" %in% routes) c(2000, 2018)) {
   pairs <- c(

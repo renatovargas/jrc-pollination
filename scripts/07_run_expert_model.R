@@ -1,5 +1,6 @@
 # Expert-based pollination model at 100 m for the EU27, in tiles, with its 1 km reduction.
 #
+# Why    : this model is half of pollination potential, and the 1 km reductions carry it into the repository.
 # Inputs : route "rebuilt"  : refs/clc_accounting/<year> (version 21), refs/distance (script 06)
 #          route "catalogue": refs/catalogue/clc_<year>.tif and dist_<year>.tif (version 20, script 03)
 #          both routes      : refs/roads/osm_major_roads_100m.tif (script 05)
@@ -16,9 +17,9 @@
 #            sum_<ecosystem> sum of the model over the cells of each ecosystem type
 #          refs/ebm_catalogue/                             the same two reductions for the catalogue route (not versioned)
 # Run    : source("scripts/07_run_expert_model.R", encoding = "UTF-8"), from the project root.
-#          Runs the route "rebuilt". The route "catalogue" only repeats the comparison of input routes, whose
-#          result is kept in data/outputs/report/route_comparison.rds. Set `routes` and `years_override` in the
-#          session to change this. Resumable by tile.
+#          Runs the route "rebuilt". The route "catalogue" only serves the comparison of input routes in
+#          script 07b, for 2000 and 2018. Set `routes` and `years_override` in the session to change this.
+#          Resumable by tile.
 #          Uses two forked workers by default, because each can reach 6 GB of memory. Set `workers` in the
 #          session to change this.
 

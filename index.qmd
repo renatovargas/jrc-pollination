@@ -9,4 +9,5 @@ be attributed to the service and how much demand remains unmet, in physical and 
 
 The [report](documentation/methods/crop-pollination/index.qmd) describes the methods, the decisions taken along the way
 and the results. The [Downloads](downloads/index.qmd) page holds the tables by NUTS region and the 100 m maps. The
-numbered scripts in the `scripts/` folder of the repository reproduce the work.
+numbered scripts in the folder <https://github.com/renatovargas/jrc-pollination/tree/main/scripts> reproduce the work, and
+Annex I of the report explains each of them.

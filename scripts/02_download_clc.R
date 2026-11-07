@@ -1,5 +1,6 @@
 # Download the Corine Land Cover accounting layers, version 21, for the five reporting years.
 #
+# Why    : land cover drives the expert-based model, and only version 21 reaches 2024.
 # Source : European Environment Agency, Corine Land Cover (raster 100 m) version 21 accounting layer,
 #          September 2026, EPSG:3035, one record per reference year (identifiers in `records` below).
 #          The DOI of each layer is 10.2909/<identifier>.
@@ -7,7 +8,7 @@
 #          The files are too large to version. data/inputs/manifest_heavy_inputs.csv lists them.
 # Run    : source("scripts/02_download_clc.R", encoding = "UTF-8"), once, from the project root.
 #          Resumable. Years whose raster is already unpacked are skipped. Needs internet access and
-#          about 15 GB of disk space.
+#          about 2.3 GB of disk space.
 
 options(timeout = 7200)
 

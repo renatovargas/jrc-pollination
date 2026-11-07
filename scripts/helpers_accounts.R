@@ -41,7 +41,6 @@ read_reduction <- function(path, factors) {
 }
 
 spa_threshold <- 0.2
-hectares_per_cell <- 1
 
 # Countries that the crop data do not cover (Vallecillo et al., 2018, footnote 6).
 no_crop_data <- c("HR", "MT", "CY")
@@ -51,7 +50,8 @@ read_regions <- function() readr::read_csv("data/inputs/gis/nuts_regions.csv", s
 
 #' Reduced expert-based model of a year.
 read_ebm <- function(year, route = "rebuilt") {
-  read_reduction(sprintf("data/inputs/ebm/ebm_%s_%s_1km.tif", route, year), ebm_factors)
+  folder <- if (route == "catalogue") "refs/ebm_catalogue" else "data/inputs/ebm"
+  read_reduction(sprintf("%s/ebm_%s_%s_1km.tif", folder, route, year), ebm_factors)
 }
 
 #' Pollination potential at 1 km, the mean of the expert-based model and the bumblebee model.
@@ -81,9 +81,9 @@ crop_zones <- function(zones = rast("data/inputs/gis/nuts3_id_1km.tif"), regions
 #' Physical accounts by NUTS3 region and crop for one year, in CAPRI units.
 #'
 #' @return Tibble with id, crop, year, area_ha, area_met_ha, production_t and production_met_t.
-capri_by_zone <- function(year, route = "rebuilt", zones = crop_zones()) {
+capri_by_zone <- function(year, zones = crop_zones()) {
   capri <- read_capri(year)
-  met <- subst(potential_1km(year, route) >= spa_threshold, NA, 0)
+  met <- subst(potential_1km(year) >= spa_threshold, NA, 0)
   production <- capri$area * capri$yield / 1000
   tally <- function(x, name) {
     sum_by_zone(x, zones) |>
@@ -98,9 +98,9 @@ capri_by_zone <- function(year, route = "rebuilt", zones = crop_zones()) {
 }
 
 #' Land and agricultural hectares by NUTS3 region and class of potential, for one year.
-potential_by_zone <- function(year, route = "rebuilt", zones = rast("data/inputs/gis/nuts3_id_1km.tif")) {
-  ebm <- read_ebm(year, route)
-  classes <- classify_potential(potential_1km(year, route))
+potential_by_zone <- function(year, zones = rast("data/inputs/gis/nuts3_id_1km.tif")) {
+  ebm <- read_ebm(year)
+  classes <- classify_potential(potential_1km(year))
   labels <- c("none", "low", "medium", "high")
   out <- lapply(0:3, function(k) {
     in_class <- subst(classes == k, NA, 0)
@@ -254,12 +254,12 @@ to_nuts_levels <- function(data, regions, by, values) {
 #' @param factors Tibble with geo, crop, year and factor, from `scale_to_eurostat()`.
 #' @param value_per_t Optional tibble with geo, crop, year and eur_per_t, for the value maps.
 #' @return A SpatRaster with layers demand_ha, flow_t, unmet_t and, with prices, flow_meur and unmet_meur.
-account_maps <- function(year, factors, value_per_t = NULL, route = "rebuilt") {
+account_maps <- function(year, factors, value_per_t = NULL) {
   regions <- read_regions()
   crops <- read_crops()
   zones <- crop_zones(regions = regions)
   capri <- read_capri(year)
-  met <- subst(potential_1km(year, route) >= spa_threshold, NA, 0)
+  met <- subst(potential_1km(year) >= spa_threshold, NA, 0)
   geo_of <- regions |> filter(!is.na(id)) |> select(id, geo)
 
   # A raster with the national value of a crop in each cell.

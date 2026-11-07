@@ -7,62 +7,6 @@ library(dplyr)
 library(terra)
 
 # ---------------------------------------------------------------------------
-# Spatial disaggregation
-# ---------------------------------------------------------------------------
-
-#' Rasterise the country polygons on the grid of a template raster.
-#'
-#' @param countries A SpatVector with a character column `geo`.
-#' @param template A SpatRaster that defines the grid.
-#' @return A list with `raster` (integer country ids per cell) and `ids` (a tibble
-#'   that links each id to its country code).
-make_country_ids <- function(countries, template) {
-  countries$id <- seq_len(nrow(countries))
-  grid <- rasterize(countries, template, field = "id")
-  list(
-    raster = grid,
-    ids = tibble(id = countries$id, geo = countries$geo)
-  )
-}
-
-#' Sum the weights of each country once, so every year can reuse the result.
-#'
-#' @param weight A SpatRaster of non-negative weights.
-#' @param country_ids Output of `make_country_ids()`.
-#' @return A tibble with geo and weight_sum.
-country_weight_sums <- function(weight, country_ids) {
-  zonal(weight, country_ids$raster, fun = "sum", na.rm = TRUE) |>
-    setNames(c("id", "weight_sum")) |>
-    left_join(country_ids$ids, by = "id") |>
-    select(geo, weight_sum)
-}
-
-#' Spread country totals over a weight raster.
-#'
-#' Each cell receives `total * weight / weight_sum` for its country, so the cells of
-#' a country add up to the national total (conservation of the sum).
-#'
-#' @param totals A tibble with geo and value (the national totals).
-#' @param weight A SpatRaster of weights.
-#' @param country_ids Output of `make_country_ids()`.
-#' @param weight_sums Output of `country_weight_sums()`.
-#' @return A SpatRaster with the same units as `totals$value`.
-spread_totals <- function(totals, weight, country_ids, weight_sums) {
-  per_weight <- country_ids$ids |>
-    left_join(weight_sums, by = "geo") |>
-    left_join(totals |> select(geo, value), by = "geo") |>
-    mutate(factor = if_else(weight_sum > 0, value / weight_sum, NA_real_)) |>
-    filter(!is.na(factor))
-
-  factor_raster <- classify(
-    country_ids$raster,
-    rcl = as.matrix(per_weight[, c("id", "factor")]),
-    others = NA
-  )
-  weight * factor_raster
-}
-
-# ---------------------------------------------------------------------------
 # Export and checks
 # ---------------------------------------------------------------------------
 

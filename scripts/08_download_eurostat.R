@@ -1,5 +1,6 @@
 # Download the Eurostat statistics used to anchor the physical and monetary flow.
 #
+# Why    : national statistics anchor the accounts, and these tables hold their production, value and prices.
 # Sources: apro_cpsh1  crop production in EU standard humidity, thousand tonnes, and area in thousand hectares
 #          aact_eaa02  economic accounts for agriculture, production value at basic price and at the
 #                       prices of the previous year (n-1), million euro
